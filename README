@@ -1,11 +1,11 @@
-Tk/MinMaxScale version 0.08
+Tk/MinMaxScale version 0.09
 ===========================
 
 Tk::MinMaxScale - Two Scale(s) to get a (min, max) values pair
 
-CHANGES from 0.07
+CHANGES from 0.08
 
-	- compatibility with Tk804.xxx (dash before option).
+	- configure and cget methods implemented.
 
 INSTALLATION
 

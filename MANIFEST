@@ -1,7 +1,9 @@
 HISTORY
+Makefile
 Makefile.PL
 MANIFEST
 MinMaxScale.pm
 README
 t/use.t
 t/twomms.t
+META.yml                                 Module meta-data (added by MakeMaker)

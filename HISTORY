@@ -1,5 +1,8 @@
 Revision history for Perl extension Tk::MinMaxScale.
 
+0.09 - 2004/01/31
+	- configure and cget methods implemented
+
 0.08 - 2004/01/04
 	- compatibility with Tk804.xxx (dash before option).
 
