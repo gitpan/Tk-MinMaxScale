@@ -1,14 +1,13 @@
-Tk/MinMaxScale version 0.05
+Tk/MinMaxScale version 0.06
 ===========================
 
 Tk::MinMaxScale - Two Scale(s) to get a (min, max) values pair
 
 CHANGES
 
-- unlike Scale, '-orient' option defaults now to 'horizontal'.
-- like Scale, '-from' and '-to' options defaults now to 0 and 100, respectively.
-- definitely (:() fixed Shift-key binding problems.
-
+some clean up:
+	- dropped "use warnings;" and "use diagnostics;"
+	- cleaned up the distribution package.
 
 INSTALLATION
 
@@ -17,6 +16,8 @@ To install this module type the following:
    perl Makefile.PL
    make
    make install
+
+(no test provided, just some examples.)
 
 COPYRIGHT AND LICENCE
 

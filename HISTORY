@@ -1,5 +1,10 @@
 Revision history for Perl extension Tk::MinMaxScale.
 
+0.06 - 2002/11/20
+some clean up:
+	- dropped "use warnings;" and "use diagnostics;"
+	- cleaned up the distribution package.
+
 0.05 - 2002/11/05
 	- unlike Scale, 'B<-orient>' option defaults now to 'horizontal'.
 	- like Scale, 'B<-from>' and 'B<-to>' options defaults now to 0 and 100, respectively.

@@ -1,12 +1,10 @@
 package Tk::MinMaxScale;
-use warnings;
-use diagnostics;
 use Carp;
 use Tk;
 
 @ISA = qw(Tk::Frame);
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 Construct Tk::Widget 'MinMaxScale';
 
@@ -234,6 +232,18 @@ bounded by 'B<minvalue>' and 'B<-to>' values.
 
 =head1 HISTORY
 
+=item B<v0.06> - 2002/11/20
+
+=over 2
+
+=item -
+dropped "use warnings" and "use diagnostics".
+
+=item -
+cleaned up the distribution package.
+
+=back
+
 =item B<v0.05> - 2002/11/05
 
 =over 2
@@ -295,7 +305,7 @@ first release.
 
 =head1 AUTHOR
 
-Jean-Pierre Vidal, E<lt>jpvidal@cpan.orgE<gt>
+Jean-Pierre Vidal, E<lt>jeanpierre.vidal@free.frE<gt>
 
 This package is free software and is provided 'as is'
 without express or implied warranty. It may be used, modified,

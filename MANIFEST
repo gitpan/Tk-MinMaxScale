@@ -1,9 +1,7 @@
+example1.pl
+example2.pl
 HISTORY
-MinMaxScale.pm
 Makefile.PL
 MANIFEST
+MinMaxScale.pm
 README
-001.t
-003.t
-004.t
-005.t
