@@ -4,7 +4,7 @@ use Tk;
 
 @ISA = qw(Tk::Frame);
 
-$VERSION = '0.06';
+$VERSION = '0.07';
 
 Construct Tk::Widget 'MinMaxScale';
 
@@ -231,6 +231,15 @@ Get the value of 'max' scale. With an argument, set the value of 'max' scale,
 bounded by 'B<minvalue>' and 'B<-to>' values.
 
 =head1 HISTORY
+
+=item B<v0.07> - 2002/11/21
+
+=over 2
+
+=item -
+added tests.
+
+=back
 
 =item B<v0.06> - 2002/11/20
 

@@ -1,7 +1,7 @@
-example1.pl
-example2.pl
 HISTORY
 Makefile.PL
 MANIFEST
 MinMaxScale.pm
 README
+t/use.t
+t/twomms.t
