@@ -8,3 +8,7 @@ Revision history for Perl extension Tk::MinMaxScale.
 	- new feature added: dragging a slider while pressing
 		a shift key drags both sliders, locking their distance
 		(an idea from Mark Lakata).
+
+0.03 - 2002/11/01
+	- fixed some problems when dragging while depressing shift key
+	- added methods minvalue and maxvalue

@@ -3,4 +3,5 @@ MinMaxScale.pm
 Makefile.PL
 MANIFEST
 README
-example.pl
+001.t
+003.t

@@ -1,42 +1,52 @@
 package Tk::MinMaxScale;
 use warnings;
+use diagnostics;
 use Carp;
 
 @ISA = qw(Tk::Frame);
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 Construct Tk::Widget 'MinMaxScale';
 
-#sub ClassInit {
-#	my ($class,$mw) = @_;
-#	$class->SUPER::ClassInit($mw);
-#}
+my $shifted; # is Shift key pressed ?
 
 sub Populate {
 	my ($smin, $smax); # the scales
 	my ($minvar, $maxvar); # references of variables associated with the scales
 	my ($oldmin, $oldmax); # previous values of the variables
+	my ($minlbl, $maxlbl); # labels for the scales
 	my $cmd; # reference to a callback associated with any change
-	my $shifted; # is Shift key pressed ?
+	my ($vmin, $vmax); # just in case the caller don't provide variables
 
 	my ($cw, $args) = @_;
 	$cw->SUPER::Populate($args);
 
-	delete $args->{'-variable'} && carp('Tk::MinMaxScale warning: option "-variable" not allowed');
+	my $pn = __PACKAGE__;
+	delete $args->{'-variable'} && carp("$pn warning: option \"-variable\" not allowed");
 
 	$minvar = delete $args->{'-variablemin'};
+	if (!defined $minvar) {
+		$minvar = \$vmin;
+		$vmin = $args->{'-from'};
+	}
 	$maxvar = delete $args->{'-variablemax'};
+	if (!defined $maxvar) {
+		$maxvar = \$vmax;
+		$vmax = $args->{'-to'};
+	}
 
 	($oldmin, $oldmax) = ($$minvar, $$maxvar);
 
-	my $minlbl = delete $args->{'-labelmin'};
-	my $maxlbl = delete $args->{'-labelmax'};
+	$minlbl = delete $args->{'-labelmin'};
+	$maxlbl = delete $args->{'-labelmax'};
 
 	$cmd = delete $args->{'-command'};
+	$cmd = sub {} unless defined $cmd;
 
 	# create the subwidget 'min' Scale
-	$smin = $cw->Scale(
+	$smin = $cw->Component(
+		'Scale', 'top',
 		%$args,
 		-variable => $minvar,
 		-label => $minlbl,
@@ -62,7 +72,8 @@ sub Populate {
 	)->pack;
 
 	# create the subwidget 'max' Scale
-	$smax = $cw->Scale(
+	$smax = $cw->Component(
+		Scale => 'top',
 		%$args,
 		-variable => $maxvar,
 		-label => $maxlbl,
@@ -89,16 +100,37 @@ sub Populate {
 
 	$cw->ConfigSpecs (
 		DEFAULT => [PASSIVE],
+		-variablemin => [$minvar, undef, undef, undef],
+		-variablemax => [$maxvar, undef, undef, undef],
 	);
 
 	$cw->bind($smin, "<Shift-Button-1>", sub { $shifted = 1; } );
-	$cw->bind($smax, "<Shift-Button-1>", sub { $shifted = 1; } );
 	$cw->bind($smin, "<Shift-ButtonRelease-1>", sub { $shifted = 0; });
+	$cw->bind($smin, "<ButtonRelease-1>", sub { $shifted = 0; });
+	$cw->bind($smin, "<KeyRelease>", sub { $shifted = 0; });
+
+	$cw->bind($smax, "<Shift-Button-1>", sub { $shifted = 1; } );
 	$cw->bind($smax, "<Shift-ButtonRelease-1>", sub { $shifted = 0; });
+	$cw->bind($smax, "<ButtonRelease-1>", sub { $shifted = 0; });
+	$cw->bind($smax, "<KeyRelease>", sub { $shifted = 0; });
+
+#	this code doesn't function : why?
+#	$cw->bind(Tk::Scale, "<Shift-Button-1>", sub { $shifted = 1; } );
+#	$cw->bind(Tk::Scale, "<Shift-ButtonRelease-1>", sub { $shifted = 0; });
+#	$cw->bind(Tk::Scale, "<ButtonRelease-1>", sub { $shifted = 0; });
+#	$cw->bind(Tk::Scale, "<KeyRelease>", sub { $shifted = 0; });
 }
 
-sub get {
-	return ($_[0]);
+sub minvalue {
+	my $self = shift;
+	my $refval = $self->{ConfigSpecs}->{'-variablemin'}[0];
+	return $$refval;
+}
+
+sub maxvalue {
+	my $self = shift;
+	my $refval = $self->{ConfigSpecs}->{'-variablemax'}[0];
+	return $$refval;
 }
 
 1;
@@ -116,27 +148,34 @@ I<$mms> = I<$parent>-E<gt>B<MinMaxScale>(I<-option> =E<gt> I<value>, ... );
 I<$mms> = I<$parent>-E<gt>B<MinMaxScale>(
     -variablemin =E<gt> \$vn,
     -variablemax =E<gt> \$vx,
-    -labelmin =E<gt> '...',
-    -labelmax =E<gt> '...',
+    -labelmin =E<gt> ...,
+    -labelmax =E<gt> ...,
     ...,
 );
 
+I<$varmin> = I<$mms>-E<gt>B<minvalue>;
+
+I<$varmax> = I<$mms>-E<gt>B<maxvalue>;
+
 =head1 DESCRIPTION
 
-Tk::MinMaxScale is a Frame-based widget including two Scale widgets, the first
-acting as a "minimum" and the second as a "maximum". The value of "minimum" is always
-less than or equal to the value of "maximum".
+Tk::MinMaxScale is a Frame-based widget including two Scale widgets,
+the first acting as a "minimum" and the second as a "maximum".
+The value of "minimum" is always less than or equal to the value of "maximum".
 
-The purpose of Tk::MinMaxScale is to get a range of values narrower than the whole Scale range
-given by the options B<-from> and B<-to> (applied to both "minimum" and "maximum" Scale).
-This is done through the options B<-variablemin> and B<-variablemax>, see below.
+The purpose of Tk::MinMaxScale is to get a range of values narrower
+than the whole Scale range given by the options B<-from> and B<-to>
+(applied to both "minimum" and "maximum" Scale).
+This is done through the options B<-variablemin> and B<-variablemax>,
+or via the methods B<minvalue> and B<maxvalues>, see below.
 
-In addition, dragging a slider while pressing a B<Shift> key drags both sliders, locking their distance. You must hold down the shift key before dragging the slider.
+In addition, dragging a slider while pressing a B<Shift> key drags both sliders,
+locking their distance. You must hold down the B<Shift> key before dragging a slider.
 
 =head1 OPTIONS
 
-The widget accept all options accepted by B<Scale>, except B<-variable>.
-In addition, the following option/value pairs are supported:
+The widget accept all options accepted by B<Scale> and their default value,
+except B<-variable>. In addition, the following option/value pairs are supported:
 
 =over 4
 
@@ -150,36 +189,54 @@ The text used as a label for the "maximum" Scale. Default none.
 
 =item B<-variablemin>
 
-A reference to a global variable linked with the "minimum" Scale. Required.
+A reference to a global variable linked with the "minimum" Scale.
 
 =item B<-variablemax>
 
-A reference to a global variable linked with the "maximum" Scale. Required.
+A reference to a global variable linked with the "maximum" Scale.
 
 =back
 
-=head1 EXPORT
-
-None.
-
 =head1 METHODS
 
-None.
+=over 4
+
+=item B<minvalue>
+
+return the value of min scale.
+
+=item B<maxvalue>
+
+return the value of max scale.
 
 =head1 HISTORY
 
-=item B<version 0.02> - 2002/10/24
+=item B<v0.03> - 2002/11/01
 
 =over 2
 
 =item -
 
-new feature added: dragging a slider while pressing a shift key
+fixed some problems when dragging while depressing shift key
+
+=item -
+
+added methods B<minvalue> and B<maxvalues>
+
+=back
+
+=item B<v0.02> - 2002/10/24
+
+=over 2
+
+=item -
+
+new feature added: dragging a slider while pressing a B<Shift> key
 drags both sliders, locking their distance (an idea from Mark Lakata).
 
 =back
 
-=item B<version 0.01> - 2002/10/17
+=item B<v0.01> - 2002/10/17
 
 =over 2
 
@@ -207,6 +264,6 @@ Feedback would be appreciated in many ways, including corrections to my poor eng
 
 =head1 SEE ALSO
 
-B<Tk::Scale>.
+B<Tk::Scale>
 
 =cut
