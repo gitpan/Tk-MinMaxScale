@@ -1,0 +1,28 @@
+Tk/MinMaxScale version 0.01
+===========================
+
+Tk::MinMaxScale - Two Scale(s) to get a (min, max) values pair
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  Tk
+  Carp
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2002 Jean-Pierre Vidal
+
+This package is free software and is provided "as is"
+without express or implied warranty. It may be used, modified,
+and redistributed under the same terms as Perl itself.
