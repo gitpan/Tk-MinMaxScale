@@ -1,0 +1,17 @@
+Revision history for Perl extension Tk::MinMaxScale.
+
+0.04 - 2002/11/01
+	- enhanced methods B<minvalue> and B<maxvalue> to set|get the values of the scales.
+
+0.03 - 2002/11/01
+	- fixed some problems when dragging while depressing shift key
+	- added methods minvalue and maxvalue
+
+0.02 - 2002/10/24
+	- new feature added: dragging a slider while pressing
+		a shift key drags both sliders, locking their distance
+		(an idea from Mark Lakata).
+
+0.01 Fri Oct 17 20:41:42 2002
+	- original version; created by h2xs 1.21 with options
+		-X -n Tk::MinMaxScale

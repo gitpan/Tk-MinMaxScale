@@ -5,7 +5,7 @@ use Carp;
 
 @ISA = qw(Tk::Frame);
 
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 Construct Tk::Widget 'MinMaxScale';
 
@@ -107,7 +107,7 @@ sub Populate {
 	$cw->bind($smin, "<Shift-Button-1>", sub { $shifted = 1; } );
 	$cw->bind($smin, "<Shift-ButtonRelease-1>", sub { $shifted = 0; });
 	$cw->bind($smin, "<ButtonRelease-1>", sub { $shifted = 0; });
-	$cw->bind($smin, "<KeyRelease>", sub { $shifted = 0; });
+	$cw->bind($smin, "<KeyRelease-Shift_L>", sub { $shifted = 0; });
 
 	$cw->bind($smax, "<Shift-Button-1>", sub { $shifted = 1; } );
 	$cw->bind($smax, "<Shift-ButtonRelease-1>", sub { $shifted = 0; });
@@ -122,14 +122,16 @@ sub Populate {
 }
 
 sub minvalue {
-	my $self = shift;
-	my $refval = $self->{ConfigSpecs}->{'-variablemin'}[0];
+	my $mms = shift;
+	my $refval = $mms->{ConfigSpecs}->{'-variablemin'}[0];
+	$$refval = shift if @_;
 	return $$refval;
 }
 
 sub maxvalue {
-	my $self = shift;
-	my $refval = $self->{ConfigSpecs}->{'-variablemax'}[0];
+	my $mms = shift;
+	my $refval = $mms->{ConfigSpecs}->{'-variablemax'}[0];
+	$$refval = shift if @_;
 	return $$refval;
 }
 
@@ -155,17 +157,21 @@ I<$mms> = I<$parent>-E<gt>B<MinMaxScale>(
 
 I<$varmin> = I<$mms>-E<gt>B<minvalue>;
 
+I<$mms>-E<gt>B<minvalue>(10);
+
 I<$varmax> = I<$mms>-E<gt>B<maxvalue>;
+
+I<$mms>-E<gt>B<maxvalue>($var);
 
 =head1 DESCRIPTION
 
 Tk::MinMaxScale is a Frame-based widget including two Scale widgets,
-the first acting as a "minimum" and the second as a "maximum".
-The value of "minimum" is always less than or equal to the value of "maximum".
+the first acting as a 'minimum' and the second as a 'maximum'.
+The value of 'minimum' is always less than or equal to the value of 'maximum'.
 
 The purpose of Tk::MinMaxScale is to get a range of values narrower
 than the whole Scale range given by the options B<-from> and B<-to>
-(applied to both "minimum" and "maximum" Scale).
+(applied to both 'minimum' and 'maximum' Scale).
 This is done through the options B<-variablemin> and B<-variablemax>,
 or via the methods B<minvalue> and B<maxvalues>, see below.
 
@@ -175,25 +181,25 @@ locking their distance. You must hold down the B<Shift> key before dragging a sl
 =head1 OPTIONS
 
 The widget accept all options accepted by B<Scale> and their default value,
-except B<-variable>. In addition, the following option/value pairs are supported:
+except B<-variable>. In addition, the following option/value pairs are supported, but not required:
 
 =over 4
 
 =item B<-labelmin>
 
-The text used as a label for the "minimum" Scale. Default none.
+The text used as a label for the 'minimum' Scale. Default none.
 
 =item B<-labelmax>
 
-The text used as a label for the "maximum" Scale. Default none.
+The text used as a label for the 'maximum' Scale. Default none.
 
 =item B<-variablemin>
 
-A reference to a global variable linked with the "minimum" Scale.
+A reference to a global variable linked with the 'minimum' Scale.
 
 =item B<-variablemax>
 
-A reference to a global variable linked with the "maximum" Scale.
+A reference to a global variable linked with the 'maximum' Scale.
 
 =back
 
@@ -203,13 +209,25 @@ A reference to a global variable linked with the "maximum" Scale.
 
 =item B<minvalue>
 
-return the value of min scale.
+Get the value of 'min' scale. With an argument, set the value of 'min' scale.
+Bounded by 'B<-from>' and 'B<maxvalue>' values.
 
 =item B<maxvalue>
 
-return the value of max scale.
+Get the value of 'max' scale. With an argument, set the value of 'max' scale.
+Bounded by 'B<minvalue>' and 'B<-to>' values.
 
 =head1 HISTORY
+
+=item B<v0.04> - 2002/11/01
+
+=over 2
+
+=item -
+
+enhanced methods B<minvalue> and B<maxvalue> to set|get the values of the scales.
+
+=back
 
 =item B<v0.03> - 2002/11/01
 
@@ -221,7 +239,7 @@ fixed some problems when dragging while depressing shift key
 
 =item -
 
-added methods B<minvalue> and B<maxvalues>
+added methods B<minvalue> and B<maxvalue>
 
 =back
 
@@ -248,15 +266,13 @@ first release.
 
 =head1 TODO
 
-- switch to a "one groove, two sliders" scale.
-
-- implement include/exclude bounds
+- switch to a 'one groove, two sliders' scale.
 
 =head1 AUTHOR
 
 Jean-Pierre Vidal, E<lt>jpvidal@cpan.orgE<gt>
 
-This package is free software and is provided "as is"
+This package is free software and is provided 'as is'
 without express or implied warranty. It may be used, modified,
 and redistributed under the same terms as Perl itself.
 

@@ -1,7 +1,8 @@
-Changes
+HISTORY
 MinMaxScale.pm
 Makefile.PL
 MANIFEST
 README
 001.t
 003.t
+004.t

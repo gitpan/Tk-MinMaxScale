@@ -1,12 +1,11 @@
-Tk/MinMaxScale version 0.03
+Tk/MinMaxScale version 0.04
 ===========================
 
 Tk::MinMaxScale - Two Scale(s) to get a (min, max) values pair
 
 CHANGES
 
-- fixed some problems when dragging while depressing shift key
-- added methods minvalue and maxvalue
+- enhanced methods B<minvalue> and B<maxvalue> to set|get the values of the scales.
 
 
 INSTALLATION
