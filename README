@@ -1,4 +1,4 @@
-Tk/MinMaxScale version 0.10
+Tk/MinMaxScale version 0.11
 ===========================
 
 Tk::MinMaxScale is a Frame-based widget wrapping two Scale widgets,
@@ -17,7 +17,6 @@ $mms = $mw->MinMaxScale(
     ...,
 );
 
-
 INSTALLATION
 
 To install this module type the following:
@@ -30,12 +29,16 @@ To install this module type the following:
 
 HISTORY
 
+version 0.11 - 2004/02/29
+	- some code clean-up
+	- hope tests are improved
+
 version 0.10 - 2004/02/14
 	- configure and cget methods implemented (via ConfigSpecs)
 	- more tests
 
 version 0.09 - 2004/02/04
-	throwed away (http://history.perl.org/backpan/authors/J/JP/JPVIDAL)
+	throwed away (http://history.perl.org/backpan/authors/id/J/JP/JPVIDAL/)
 
 version 0.08 - 2004/01/04
 	- compatibility with Tk804.xxx (dash before option).

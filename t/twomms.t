@@ -7,7 +7,7 @@ use Test;
 BEGIN { plan tests => 130 }
 
 use Tk::MinMaxScale;
-my $delay = 20;
+my $delay = 50;
 
 my $mw = new MainWindow;
 
@@ -38,82 +38,104 @@ my $mms2 = $mw->MinMaxScale(
 	-variablemax => \$wx,
 )->pack;
 
-$mw->after(1000, &start_test);
+$mw->after(2000, &start_test);
 
 MainLoop;
 
 sub start_test {
 	for (1..19) {
 		$wn++;
-		$mw->after($delay, $mw->update);
+		$mw->update;
+		$mw->after($delay);
 		ok($wn < $wx);
 	}
+
+	$mw->after(1000);
+
 	for (20..29) {
 		$wn++;
-		$mw->after($delay, $mw->update);
+		$mw->update;
  		ok($wx == $wn);
 	}
+
+	$mw->after(1000);
+
 	for (30..31) {
 		$wn++;
-		$mw->after($delay, $mw->update);
+		$mw->update;
+		$mw->after($delay);
 		ok($wn == 80);
 		ok($wx == 80);
 	}
 
-	sleep 1;
+	$mw->after(1000);
 
 	$wn = 40;
 	$wx = 60;
+
+	$mw->after(1000);
+
 	for (1..19) {
 		$wx--;
-		$mw->after($delay, $mw->update);
+		$mw->update;
+		$mw->after($delay);
 		ok($wx > $wn);
 	}
+
+	$mw->after(1000);
+
 	for (20..29) {
 		$wx--;
-		$mw->after($delay, $mw->update);
+		$mw->update;
  		ok($wn == $wx);
 	}
+
+	$mw->after(1000);
+
 	for (30..31) {
 		$wx--;
-		$mw->after($delay, $mw->update);
+		$mw->update;
+		$mw->after($delay);
 		ok($wn == 30);
 		ok($wx == 30);
 	}
 
-	sleep 1;
+	$mw->after(1000);
 
 	$wn = 40;
 	$wx = 60;
 
-	sleep 1;
+
+	$mw->after(1000);
 
 	$mw->eventGenerate('<Shift_L>');
 	for (1..30) {
 		$wn++;
-		$mw->after($delay, $mw->update);
+		$mw->update;
+		$mw->after($delay);
 		ok(($wx - $wn) == 20);
 	}
 	ok($wn == 60);
 	ok($wx == 80);
 
-	sleep 1;
+	$mw->after(1000);
 
 	$wn = 40;
 	$wx = 60;
 
-	sleep 1;
+	$mw->after(1000);
 
 	for (1..30) {
 		$wx--;
-		$mw->after($delay, $mw->update);
+		$mw->update;
+		$mw->after($delay);
 		ok(($wx - $wn) == 20);
 	}
 	ok($wn == 30);
 	ok($wx == 50);
 
 	# that's all folks
-	sleep 1;
+	$mw->after(1000);
 	exit;
 }
 

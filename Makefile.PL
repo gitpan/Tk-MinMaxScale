@@ -4,6 +4,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     'NAME'         => 'Tk::MinMaxScale',
     'VERSION_FROM' => 'MinMaxScale.pm', # finds $VERSION
+    depend => { '$(FIRST_MAKEFILE)' => '$(VERSION_FROM)' },
     'PREREQ_PM'    => {'Tk' => '0'}, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
         (ABSTRACT_FROM => 'MinMaxScale.pm', # retrieve abstract from module

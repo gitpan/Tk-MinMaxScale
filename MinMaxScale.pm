@@ -7,7 +7,7 @@ use Tie::Watch;
 
 use base qw(Tk::Frame);
 
-$VERSION = '0.10';
+$VERSION = '0.11';
 
 Construct Tk::Widget 'MinMaxScale';
 
@@ -17,7 +17,7 @@ sub ClassInit {
 }
 
 my $shifted; # is Shift-Key pressed ?
-my $DEBUG = 0;
+my $DEBUG = 0; # for Tie::Watch
 
 sub Populate {
 	my ($cw, $args) = @_;
@@ -66,11 +66,7 @@ sub Populate {
 		-to => $cw->{'mms_to'},
 	)->pack(-side => $sideforpack);
 
-	$cw->{'mms_watchmin'} = Tie::Watch->new(
-		-variable => $cw->{'mms_variablemin'},
-		-store => \&submin,
-		-debug => $DEBUG,
-	);
+	watch_variable($cw, 'mms_watchmin', 'mms_variablemin', \&minchange);
 
 	# create the 'max' Scale subwidget
 	my $smax = $cw->Scale(
@@ -82,14 +78,7 @@ sub Populate {
 		-to => $cw->{'mms_to'},
 	)->pack(-side => $sideforpack);
 
-	$cw->{'mms_watchmax'} = Tie::Watch->new(
-		-variable => $cw->{'mms_variablemax'},
-		-store => \&submax,
-		-debug => $DEBUG,
-	);
-
-	$cw->{'mms_watchmin'}->{'cw'} = $cw;
-	$cw->{'mms_watchmax'}->{'cw'} = $cw;
+	watch_variable($cw, 'mms_watchmax', 'mms_variablemax', \&maxchange);
 
 	$cw->toplevel->bind("<Key>", [ \&is_shift_key, Ev('s'), Ev('K') ] );
 	$cw->toplevel->bind("<KeyRelease>", [ \&is_shift_key, Ev('s'), Ev('K') ] );
@@ -110,7 +99,17 @@ sub Populate {
 	$cw->Advertise('smax' => $smax);
 }
 
-sub submin {
+sub watch_variable {
+	my ($cw, $key, $kvar, $sub) = @_;
+	$cw->{$key} = Tie::Watch->new(
+		-variable => $cw->{$kvar},
+		-store => $sub,
+		-debug => $DEBUG,
+	);
+	$cw->{$key}->{'cw'} = $cw;
+}
+
+sub minchange {
 	my ($var, $valmin) = @_;
 	my $cw = $var->{'cw'};
 	my $oldmin = $cw->{'mms_oldmin'};
@@ -138,7 +137,7 @@ sub submin {
 	&$cmd;
 }
 
-sub submax {
+sub maxchange {
 	my ($var, $valmax) = @_;
 	my $cw = $var->{'cw'};
 	my $oldmin = $cw->{'mms_oldmin'};
@@ -207,12 +206,8 @@ sub variablemin {
 	if ( ($val) && ($val != $cw->{'mms_variablemin'}) ) {
 		$cw->{'mms_watchmin'}->Unwatch;
 		$cw->{'mms_variablemin'} = $val;
-		$cw->{'mms_watchmin'} = Tie::Watch->new(
-			-variable => $cw->{'mms_variablemin'},
-			-store => \&submin,
-			-debug => $DEBUG,
-		);
-		$cw->{'mms_watchmin'}->{'cw'} = $cw;
+		watch_variable($cw, 'mms_watchmin', 'mms_variablemin', \&minchange);
+
 		my $scale = $cw->Subwidget('smin');
 		$scale->configure(-variable => $val);
 	}
@@ -224,12 +219,8 @@ sub variablemax {
 	if ( ($val) && ($val != $cw->{'mms_variablemax'}) ) {
 		$cw->{'mms_watchmax'}->Unwatch;
 		$cw->{'mms_variablemax'} = $val;
-		$cw->{'mms_watchmax'} = Tie::Watch->new(
-			-variable => $cw->{'mms_variablemax'},
-			-store => \&submax,
-			-debug => $DEBUG,
-		);
-		$cw->{'mms_watchmax'}->{'cw'} = $cw;
+		watch_variable($cw, 'mms_watchmax', 'mms_variablemax', \&maxchange);
+
 		my $scale = $cw->Subwidget('smax');
 		$scale->configure(-variable => $val);
 	}
@@ -364,13 +355,13 @@ The widget also inherits all the methods provided by the generic Tk::Widget clas
 
 The following additional methods are available for MinMaxScale widgets:
 
-=item I<$mms>->B<minvalue>(?I<value>?)
+=item I<$mms>-E<gt>B<minvalue>(?I<value>?)
 
 If I<value> is defined, sets the 'minimum' Scale of the widget to I<value>
 (limited by 'B<-from>' value and the value of the 'maximum' Scale).
 Returns the value of the 'minimum' Scale.
 
-=item I<$mms>->B<maxvalue>(?I<value>?)
+=item I<$mms>-E<gt>B<maxvalue>(?I<value>?)
 
 If I<value> is defined, sets the 'maximum' Scale of the widget to I<value>
 (limited by the value of the 'minimum' Scale and 'B<-to>' value).
@@ -389,7 +380,7 @@ switch to a 'one groove, two sliders' scale: I think this is not a so good idea.
 
 Jean-Pierre Vidal, E<lt>jeanpierre.vidal@free.frE<gt>
 
-Feedback would be greatly appreciated, including corrections to my poor english.
+Feedback would be greatly appreciated, including typos, vocabulary and grammar.
 
 This package is free software and is provided 'as is'
 without express or implied warranty. It may be used, modified,
