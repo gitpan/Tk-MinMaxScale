@@ -4,6 +4,7 @@ Makefile.PL
 MANIFEST
 MinMaxScale.pm
 README
-t/use.t
 t/twomms.t
+t/fromto.t
+t/minmaxval.t
 META.yml                                 Module meta-data (added by MakeMaker)

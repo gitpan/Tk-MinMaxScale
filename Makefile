@@ -1,7 +1,7 @@
 # This Makefile is for the Tk::MinMaxScale extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.17 (Revision: 1.133) from the contents of
+# 6.03 (Revision: 1.63) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -11,7 +11,7 @@
 #   MakeMaker Parameters:
 
 #     ABSTRACT_FROM => q[MinMaxScale.pm]
-#     AUTHOR => q[Jean-Pierre Vidal <jpvidal@cpan.org>]
+#     AUTHOR => q[Jean-Pierre Vidal <jeanpierre.vidal@free.fr>]
 #     NAME => q[Tk::MinMaxScale]
 #     PREREQ_PM => { Tk=>q[0] }
 #     VERSION_FROM => q[MinMaxScale.pm]
@@ -21,7 +21,7 @@
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /usr/lib/perl5/5.8.3/i686-linux/Config.pm)
+# These definitions are from config.sh (via /usr/local/lib/perl5/5.8.0/i686-linux/Config.pm)
 
 # They may have been overridden via Makefile.PL or on the command line
 AR = ar
@@ -39,97 +39,68 @@ OBJ_EXT = .o
 OSNAME = linux
 OSVERS = 2.4.21-0.13mdk
 RANLIB = :
-SITELIBEXP = /usr/lib/perl5/site_perl/5.8.3
-SITEARCHEXP = /usr/lib/perl5/site_perl/5.8.3/i686-linux
 SO = so
 EXE_EXT = 
 FULL_AR = /usr//bin/ar
-VENDORARCHEXP = 
-VENDORLIBEXP = 
 
 
 # --- MakeMaker constants section:
 AR_STATIC_ARGS = cr
-DIRFILESEP = /
 NAME = Tk::MinMaxScale
+DISTNAME = Tk-MinMaxScale
 NAME_SYM = Tk_MinMaxScale
-VERSION = 0.09
-VERSION_MACRO = VERSION
-VERSION_SYM = 0_09
-DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.09
-XS_VERSION_MACRO = XS_VERSION
-XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
+VERSION = 0.10
+VERSION_SYM = 0_10
+XS_VERSION = 0.10
 INST_ARCHLIB = blib/arch
 INST_SCRIPT = blib/script
 INST_BIN = blib/bin
 INST_LIB = blib/lib
-INST_MAN1DIR = blib/man1
-INST_MAN3DIR = blib/man3
-MAN1EXT = 1
-MAN3EXT = 3
 INSTALLDIRS = site
-DESTDIR = 
-PREFIX = 
-PERLPREFIX = /usr
-SITEPREFIX = /usr
+PREFIX = /usr/local
+SITEPREFIX = /usr/local
 VENDORPREFIX = 
-INSTALLPRIVLIB = $(PERLPREFIX)/lib/perl5/5.8.3
-DESTINSTALLPRIVLIB = $(DESTDIR)$(INSTALLPRIVLIB)
-INSTALLSITELIB = $(SITEPREFIX)/lib/perl5/site_perl/5.8.3
-DESTINSTALLSITELIB = $(DESTDIR)$(INSTALLSITELIB)
+INSTALLPRIVLIB = /usr/local/lib/perl5/5.8.0
+INSTALLSITELIB = /usr/local/lib/perl5/site_perl/5.8.0
 INSTALLVENDORLIB = 
-DESTINSTALLVENDORLIB = $(DESTDIR)$(INSTALLVENDORLIB)
-INSTALLARCHLIB = $(PERLPREFIX)/lib/perl5/5.8.3/i686-linux
-DESTINSTALLARCHLIB = $(DESTDIR)$(INSTALLARCHLIB)
-INSTALLSITEARCH = $(SITEPREFIX)/lib/perl5/site_perl/5.8.3/i686-linux
-DESTINSTALLSITEARCH = $(DESTDIR)$(INSTALLSITEARCH)
+INSTALLARCHLIB = /usr/local/lib/perl5/5.8.0/i686-linux
+INSTALLSITEARCH = /usr/local/lib/perl5/site_perl/5.8.0/i686-linux
 INSTALLVENDORARCH = 
-DESTINSTALLVENDORARCH = $(DESTDIR)$(INSTALLVENDORARCH)
-INSTALLBIN = $(PERLPREFIX)/bin
-DESTINSTALLBIN = $(DESTDIR)$(INSTALLBIN)
-INSTALLSITEBIN = $(SITEPREFIX)/bin
-DESTINSTALLSITEBIN = $(DESTDIR)$(INSTALLSITEBIN)
+INSTALLBIN = /usr/local/bin
+INSTALLSITEBIN = /usr/local/bin
 INSTALLVENDORBIN = 
-DESTINSTALLVENDORBIN = $(DESTDIR)$(INSTALLVENDORBIN)
-INSTALLSCRIPT = $(PERLPREFIX)/bin
-DESTINSTALLSCRIPT = $(DESTDIR)$(INSTALLSCRIPT)
-INSTALLMAN1DIR = $(PERLPREFIX)/share/man/man1
-DESTINSTALLMAN1DIR = $(DESTDIR)$(INSTALLMAN1DIR)
-INSTALLSITEMAN1DIR = $(SITEPREFIX)/share/man/man1
-DESTINSTALLSITEMAN1DIR = $(DESTDIR)$(INSTALLSITEMAN1DIR)
-INSTALLVENDORMAN1DIR = 
-DESTINSTALLVENDORMAN1DIR = $(DESTDIR)$(INSTALLVENDORMAN1DIR)
-INSTALLMAN3DIR = $(PERLPREFIX)/share/man/man3
-DESTINSTALLMAN3DIR = $(DESTDIR)$(INSTALLMAN3DIR)
-INSTALLSITEMAN3DIR = $(SITEPREFIX)/share/man/man3
-DESTINSTALLSITEMAN3DIR = $(DESTDIR)$(INSTALLSITEMAN3DIR)
-INSTALLVENDORMAN3DIR = 
-DESTINSTALLVENDORMAN3DIR = $(DESTDIR)$(INSTALLVENDORMAN3DIR)
-PERL_LIB = /usr/lib/perl5/5.8.3
-PERL_ARCHLIB = /usr/lib/perl5/5.8.3/i686-linux
+INSTALLSCRIPT = /usr/local/bin
+PERL_LIB = /usr/local/lib/perl5/5.8.0
+PERL_ARCHLIB = /usr/local/lib/perl5/5.8.0/i686-linux
+SITELIBEXP = /usr/local/lib/perl5/site_perl/5.8.0
+SITEARCHEXP = /usr/local/lib/perl5/site_perl/5.8.0/i686-linux
 LIBPERL_A = libperl.a
 FIRST_MAKEFILE = Makefile
-MAKEFILE_OLD = $(FIRST_MAKEFILE).old
-MAKE_APERL_FILE = $(FIRST_MAKEFILE).aperl
+MAKE_APERL_FILE = Makefile.aperl
 PERLMAINCC = $(CC)
-PERL_INC = /usr/lib/perl5/5.8.3/i686-linux/CORE
+PERL_INC = /usr/local/lib/perl5/5.8.0/i686-linux/CORE
 PERL = /usr/bin/perl
 FULLPERL = /usr/bin/perl
-ABSPERL = $(PERL)
 PERLRUN = $(PERL)
 FULLPERLRUN = $(FULLPERL)
-ABSPERLRUN = $(ABSPERL)
 PERLRUNINST = $(PERLRUN) "-I$(INST_ARCHLIB)" "-I$(INST_LIB)"
 FULLPERLRUNINST = $(FULLPERLRUN) "-I$(INST_ARCHLIB)" "-I$(INST_LIB)"
+ABSPERL = $(PERL)
+ABSPERLRUN = $(ABSPERL)
 ABSPERLRUNINST = $(ABSPERLRUN) "-I$(INST_ARCHLIB)" "-I$(INST_LIB)"
+FULL_AR = /usr//bin/ar
 PERL_CORE = 0
-PERM_RW = 644
-PERM_RWX = 755
+NOOP = $(SHELL) -c true
+NOECHO = @
 
-MAKEMAKER   = /usr/lib/perl5/5.8.3/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.17
-MM_REVISION = 1.133
+VERSION_MACRO = VERSION
+DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
+XS_VERSION_MACRO = XS_VERSION
+XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
+PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
+
+MAKEMAKER = /usr/local/lib/perl5/5.8.0/ExtUtils/MakeMaker.pm
+MM_VERSION = 6.03
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -145,47 +116,65 @@ LDFROM = $(OBJECT)
 LINKTYPE = dynamic
 
 # Handy lists of source code files:
-XS_FILES = 
-C_FILES  = 
-O_FILES  = 
-H_FILES  = 
+XS_FILES= 
+C_FILES = 
+O_FILES = 
+H_FILES = 
 MAN1PODS = 
 MAN3PODS = MinMaxScale.pm
+INST_MAN1DIR = blib/man1
+MAN1EXT = 1
+INSTALLMAN1DIR = /usr/local/share/man/man1
+INSTALLSITEMAN1DIR = /usr/local/man/man$(MAN1EXT)
+INST_MAN3DIR = blib/man3
+MAN3EXT = 3
+INSTALLMAN3DIR = /usr/local/share/man/man3
+INSTALLSITEMAN3DIR = /usr/local/man/man$(MAN3EXT)
+PERM_RW = 644
+PERM_RWX = 755
+
+# work around a famous dec-osf make(1) feature(?):
+makemakerdflt: all
+
+.SUFFIXES: .xs .c .C .cpp .i .s .cxx .cc $(OBJ_EXT)
+
+# Nick wanted to get rid of .PRECIOUS. I don't remember why. I seem to recall, that
+# some make implementations will delete the Makefile when we rebuild it. Because
+# we call false(1) when we rebuild it. So make(1) is not completely wrong when it
+# does so. Our milage may vary.
+# .PRECIOUS: Makefile    # seems to be not necessary anymore
+
+.PHONY: all config static dynamic test linkext manifest
 
 # Where is the Config information that we are using/depend on
-CONFIGDEP = $(PERL_ARCHLIB)$(DIRFILESEP)Config.pm $(PERL_INC)$(DIRFILESEP)config.h
+CONFIGDEP = $(PERL_ARCHLIB)/Config.pm $(PERL_INC)/config.h
 
-# Where to build things
+# Where to put things:
 INST_LIBDIR      = $(INST_LIB)/Tk
 INST_ARCHLIBDIR  = $(INST_ARCHLIB)/Tk
 
 INST_AUTODIR     = $(INST_LIB)/auto/$(FULLEXT)
 INST_ARCHAUTODIR = $(INST_ARCHLIB)/auto/$(FULLEXT)
 
-INST_STATIC      = 
-INST_DYNAMIC     = 
-INST_BOOT        = 
+INST_STATIC  =
+INST_DYNAMIC =
+INST_BOOT    =
 
-# Extra linker info
-EXPORT_LIST        = 
-PERL_ARCHIVE       = 
+EXPORT_LIST = 
+
+PERL_ARCHIVE = 
+
 PERL_ARCHIVE_AFTER = 
-
 
 TO_INST_PM = MinMaxScale.pm
 
 PM_TO_BLIB = MinMaxScale.pm \
-	$(INST_LIB)/Tk/MinMaxScale.pm
-
-
-# --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 1.42
-PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
+	blib/lib/Tk/MinMaxScale.pm
 
 
 # --- MakeMaker tool_autosplit section:
 # Usage: $(AUTOSPLITFILE) FileToSplit AutoDirToSplitInto
-AUTOSPLITFILE = $(PERLRUN)  -e 'use AutoSplit;  autosplit($$ARGV[0], $$ARGV[1], 0, 1, 1)'
+AUTOSPLITFILE = $(PERLRUN) -e 'use AutoSplit;  autosplit($$ARGV[0], $$ARGV[1], 0, 1, 1) ;'
 
 
 
@@ -193,52 +182,71 @@ AUTOSPLITFILE = $(PERLRUN)  -e 'use AutoSplit;  autosplit($$ARGV[0], $$ARGV[1], 
 
 
 # --- MakeMaker tools_other section:
+
 SHELL = /bin/sh
 CHMOD = chmod
 CP = cp
+LD = cc
 MV = mv
 NOOP = $(SHELL) -c true
-NOECHO = @
 RM_F = rm -f
 RM_RF = rm -rf
 TEST_F = test -f
 TOUCH = touch
 UMASK_NULL = umask 0
 DEV_NULL = > /dev/null 2>&1
+
+# The following is a portable way to say mkdir -p
+# To see which directories are created, change the if 0 to if 1
 MKPATH = $(PERLRUN) "-MExtUtils::Command" -e mkpath
+
+# This helps us to minimize the effect of the .exists files A yet
+# better solution would be to have a stable file in the perl
+# distribution with a timestamp of zero. But this solution doesn't
+# need any changes to the core distribution and works with older perls
 EQUALIZE_TIMESTAMP = $(PERLRUN) "-MExtUtils::Command" -e eqtime
-ECHO = echo
-ECHO_N = echo -n
-UNINST = 0
-VERBINST = 0
-MOD_INSTALL = $(PERLRUN) -MExtUtils::Install -e 'install({@ARGV}, '\''$(VERBINST)'\'', 0, '\''$(UNINST)'\'');'
-DOC_INSTALL = $(PERLRUN) "-MExtUtils::Command::MM" -e perllocal_install
-UNINSTALL = $(PERLRUN) "-MExtUtils::Command::MM" -e uninstall
-WARN_IF_OLD_PACKLIST = $(PERLRUN) "-MExtUtils::Command::MM" -e warn_if_old_packlist
 
+# Here we warn users that an old packlist file was found somewhere,
+# and that they should call some uninstall routine
+WARN_IF_OLD_PACKLIST = $(PERL) -we 'exit unless -f $$ARGV[0];' \
+-e 'print "WARNING: I have found an old package in\n";' \
+-e 'print "\t$$ARGV[0].\n";' \
+-e 'print "Please make sure the two installations are not conflicting\n";'
 
-# --- MakeMaker makemakerdflt section:
-makemakerdflt: all
-	$(NOECHO) $(NOOP)
+UNINST=0
+VERBINST=0
+
+MOD_INSTALL = $(PERL) "-I$(INST_LIB)" "-I$(PERL_LIB)" "-MExtUtils::Install" \
+-e "install({@ARGV},'$(VERBINST)',0,'$(UNINST)');"
+
+DOC_INSTALL = $(PERL) -e '$$\="\n\n";' \
+-e 'print "=head2 ", scalar(localtime), ": C<", shift, ">", " L<", $$arg=shift, "|", $$arg, ">";' \
+-e 'print "=over 4";' \
+-e 'while (defined($$key = shift) and defined($$val = shift)){print "=item *";print "C<$$key: $$val>";}' \
+-e 'print "=back";'
+
+UNINSTALL =   $(PERLRUN) "-MExtUtils::Install" \
+-e 'uninstall($$ARGV[0],1,1); print "\nUninstall is deprecated. Please check the";' \
+-e 'print " packlist above carefully.\n  There may be errors. Remove the";' \
+-e 'print " appropriate files manually.\n  Sorry for the inconveniences.\n"'
 
 
 # --- MakeMaker dist section:
-TAR = tar
-TARFLAGS = cvf
-ZIP = zip
 ZIPFLAGS = -r
-COMPRESS = gzip --best
-SUFFIX = .gz
-SHAR = shar
-PREOP = $(NOECHO) $(NOOP)
-POSTOP = $(NOECHO) $(NOOP)
-TO_UNIX = $(NOECHO) $(NOOP)
-CI = ci -u
-RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
-DIST_CP = best
+TO_UNIX = @$(NOOP)
+TAR = tar
+POSTOP = @$(NOOP)
+ZIP = zip
 DIST_DEFAULT = tardist
-DISTNAME = Tk-MinMaxScale
-DISTVNAME = Tk-MinMaxScale-0.09
+CI = ci -u
+SHAR = shar
+COMPRESS = gzip --best
+DIST_CP = best
+PREOP = @$(NOOP)
+TARFLAGS = cvf
+DISTVNAME = $(DISTNAME)-$(VERSION)
+SUFFIX = .gz
+RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 
 
 # --- MakeMaker macro section:
@@ -270,13 +278,6 @@ PASTHRU = LIB="$(LIB)"\
 	PASTHRU_INC="$(PASTHRU_INC)"
 
 
-# --- MakeMaker special_targets section:
-.SUFFIXES: .xs .c .C .cpp .i .s .cxx .cc $(OBJ_EXT)
-
-.PHONY: all config static dynamic test linkext manifest
-
-
-
 # --- MakeMaker c_o section:
 
 
@@ -287,52 +288,52 @@ PASTHRU = LIB="$(LIB)"\
 
 
 # --- MakeMaker top_targets section:
-all :: pure_all manifypods
-	$(NOECHO) $(NOOP)
 
+all :: pure_all manifypods
+	@$(NOOP)
 
 pure_all :: config pm_to_blib subdirs linkext
-	$(NOECHO) $(NOOP)
+	@$(NOOP)
 
 subdirs :: $(MYEXTLIB)
-	$(NOECHO) $(NOOP)
+	@$(NOOP)
 
-config :: $(FIRST_MAKEFILE) $(INST_LIBDIR)$(DIRFILESEP).exists
-	$(NOECHO) $(NOOP)
+config :: Makefile $(INST_LIBDIR)/.exists
+	@$(NOOP)
 
-config :: $(INST_ARCHAUTODIR)$(DIRFILESEP).exists
-	$(NOECHO) $(NOOP)
+config :: $(INST_ARCHAUTODIR)/.exists
+	@$(NOOP)
 
-config :: $(INST_AUTODIR)$(DIRFILESEP).exists
-	$(NOECHO) $(NOOP)
+config :: $(INST_AUTODIR)/.exists
+	@$(NOOP)
 
-$(INST_AUTODIR)/.exists :: /usr/lib/perl5/5.8.3/i686-linux/CORE/perl.h
-	$(NOECHO) $(MKPATH) $(INST_AUTODIR)
-	$(NOECHO) $(EQUALIZE_TIMESTAMP) /usr/lib/perl5/5.8.3/i686-linux/CORE/perl.h $(INST_AUTODIR)/.exists
+$(INST_AUTODIR)/.exists :: /usr/local/lib/perl5/5.8.0/i686-linux/CORE/perl.h
+	@$(MKPATH) $(INST_AUTODIR)
+	@$(EQUALIZE_TIMESTAMP) /usr/local/lib/perl5/5.8.0/i686-linux/CORE/perl.h $(INST_AUTODIR)/.exists
 
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_AUTODIR)
+	-@$(CHMOD) $(PERM_RWX) $(INST_AUTODIR)
 
-$(INST_LIBDIR)/.exists :: /usr/lib/perl5/5.8.3/i686-linux/CORE/perl.h
-	$(NOECHO) $(MKPATH) $(INST_LIBDIR)
-	$(NOECHO) $(EQUALIZE_TIMESTAMP) /usr/lib/perl5/5.8.3/i686-linux/CORE/perl.h $(INST_LIBDIR)/.exists
+$(INST_LIBDIR)/.exists :: /usr/local/lib/perl5/5.8.0/i686-linux/CORE/perl.h
+	@$(MKPATH) $(INST_LIBDIR)
+	@$(EQUALIZE_TIMESTAMP) /usr/local/lib/perl5/5.8.0/i686-linux/CORE/perl.h $(INST_LIBDIR)/.exists
 
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_LIBDIR)
+	-@$(CHMOD) $(PERM_RWX) $(INST_LIBDIR)
 
-$(INST_ARCHAUTODIR)/.exists :: /usr/lib/perl5/5.8.3/i686-linux/CORE/perl.h
-	$(NOECHO) $(MKPATH) $(INST_ARCHAUTODIR)
-	$(NOECHO) $(EQUALIZE_TIMESTAMP) /usr/lib/perl5/5.8.3/i686-linux/CORE/perl.h $(INST_ARCHAUTODIR)/.exists
+$(INST_ARCHAUTODIR)/.exists :: /usr/local/lib/perl5/5.8.0/i686-linux/CORE/perl.h
+	@$(MKPATH) $(INST_ARCHAUTODIR)
+	@$(EQUALIZE_TIMESTAMP) /usr/local/lib/perl5/5.8.0/i686-linux/CORE/perl.h $(INST_ARCHAUTODIR)/.exists
 
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_ARCHAUTODIR)
+	-@$(CHMOD) $(PERM_RWX) $(INST_ARCHAUTODIR)
 
-config :: $(INST_MAN3DIR)$(DIRFILESEP).exists
-	$(NOECHO) $(NOOP)
+config :: $(INST_MAN3DIR)/.exists
+	@$(NOOP)
 
 
-$(INST_MAN3DIR)/.exists :: /usr/lib/perl5/5.8.3/i686-linux/CORE/perl.h
-	$(NOECHO) $(MKPATH) $(INST_MAN3DIR)
-	$(NOECHO) $(EQUALIZE_TIMESTAMP) /usr/lib/perl5/5.8.3/i686-linux/CORE/perl.h $(INST_MAN3DIR)/.exists
+$(INST_MAN3DIR)/.exists :: /usr/local/lib/perl5/5.8.0/i686-linux/CORE/perl.h
+	@$(MKPATH) $(INST_MAN3DIR)
+	@$(EQUALIZE_TIMESTAMP) /usr/local/lib/perl5/5.8.0/i686-linux/CORE/perl.h $(INST_MAN3DIR)/.exists
 
-	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_MAN3DIR)
+	-@$(CHMOD) $(PERM_RWX) $(INST_MAN3DIR)
 
 help:
 	perldoc ExtUtils::MakeMaker
@@ -341,7 +342,7 @@ help:
 # --- MakeMaker linkext section:
 
 linkext :: $(LINKTYPE)
-	$(NOECHO) $(NOOP)
+	@$(NOOP)
 
 
 # --- MakeMaker dlsyms section:
@@ -349,8 +350,11 @@ linkext :: $(LINKTYPE)
 
 # --- MakeMaker dynamic section:
 
-dynamic :: $(FIRST_MAKEFILE) $(INST_DYNAMIC) $(INST_BOOT)
-	$(NOECHO) $(NOOP)
+## $(INST_PM) has been moved to the all: target.
+## It remains here for awhile to allow for old usage: "make dynamic"
+#dynamic :: Makefile $(INST_DYNAMIC) $(INST_BOOT) $(INST_PM)
+dynamic :: Makefile $(INST_DYNAMIC) $(INST_BOOT)
+	@$(NOOP)
 
 
 # --- MakeMaker dynamic_bs section:
@@ -365,27 +369,26 @@ BOOTSTRAP =
 
 ## $(INST_PM) has been moved to the all: target.
 ## It remains here for awhile to allow for old usage: "make static"
-static :: $(FIRST_MAKEFILE) $(INST_STATIC)
-	$(NOECHO) $(NOOP)
+#static :: Makefile $(INST_STATIC) $(INST_PM)
+static :: Makefile $(INST_STATIC)
+	@$(NOOP)
 
 
 # --- MakeMaker static_lib section:
 
 
 # --- MakeMaker manifypods section:
+POD2MAN_EXE = /usr/local/bin/pod2man
+POD2MAN = $(PERL) -we '%m=@ARGV;for (keys %m){' \
+-e 'next if -e $$m{$$_} && -M $$m{$$_} < -M $$_ && -M $$m{$$_} < -M "Makefile";' \
+-e 'print "Manifying $$m{$$_}\n";' \
+-e 'system(q[$(PERLRUN) $(POD2MAN_EXE) ].qq[$$_>$$m{$$_}])==0 or warn "Couldn\047t install $$m{$$_}\n";' \
+-e 'chmod(oct($(PERM_RW)), $$m{$$_}) or warn "chmod $(PERM_RW) $$m{$$_}: $$!\n";}'
 
-POD2MAN_EXE = $(PERLRUN) "-MExtUtils::Command::MM" -e pod2man "--"
-POD2MAN = $(POD2MAN_EXE)
-
-
-manifypods : pure_all  \
+manifypods : pure_all MinMaxScale.pm
+	@$(POD2MAN) \
 	MinMaxScale.pm \
-	MinMaxScale.pm
-	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW)\
-	  MinMaxScale.pm $(INST_MAN3DIR)/Tk::MinMaxScale.$(MAN3EXT) 
-
-
-
+	$(INST_MAN3DIR)/Tk::MinMaxScale.$(MAN3EXT)
 
 # --- MakeMaker processPL section:
 
@@ -397,54 +400,24 @@ manifypods : pure_all  \
 
 # none
 
-# --- MakeMaker clean_subdirs section:
-clean_subdirs :
-	$(NOECHO) $(NOOP)
-
-
 # --- MakeMaker clean section:
 
 # Delete temporary files but do not touch installed files. We don't delete
 # the Makefile here so a later make realclean still has a makefile to use.
 
-clean :: clean_subdirs
-	-$(RM_RF) ./blib $(MAKE_APERL_FILE) $(INST_ARCHAUTODIR)/extralibs.all $(INST_ARCHAUTODIR)/extralibs.ld perlmain.c tmon.out mon.out so_locations pm_to_blib *$(OBJ_EXT) *$(LIB_EXT) perl.exe perl perl$(EXE_EXT) $(BOOTSTRAP) $(BASEEXT).bso $(BASEEXT).def lib$(BASEEXT).def $(BASEEXT).exp $(BASEEXT).x core core.*perl.*.? *perl.core core.[0-9] core.[0-9][0-9] core.[0-9][0-9][0-9] core.[0-9][0-9][0-9][0-9] core.[0-9][0-9][0-9][0-9][0-9]
-	-$(MV) $(FIRST_MAKEFILE) $(MAKEFILE_OLD) $(DEV_NULL)
-
-
-# --- MakeMaker realclean_subdirs section:
-realclean_subdirs :
-	$(NOECHO) $(NOOP)
+clean ::
+	-rm -rf ./blib $(MAKE_APERL_FILE) $(INST_ARCHAUTODIR)/extralibs.all perlmain.c tmon.out mon.out so_locations pm_to_blib *$(OBJ_EXT) *$(LIB_EXT) perl.exe perl perl$(EXE_EXT) $(BOOTSTRAP) $(BASEEXT).bso $(BASEEXT).def lib$(BASEEXT).def $(BASEEXT).exp $(BASEEXT).x core core.*perl.*.? *perl.core
+	-mv Makefile Makefile.old $(DEV_NULL)
 
 
 # --- MakeMaker realclean section:
 
 # Delete temporary files (via clean) and also delete installed files
-realclean purge ::  clean realclean_subdirs
-	$(RM_RF) $(INST_AUTODIR) $(INST_ARCHAUTODIR)
-	$(RM_RF) $(DISTVNAME)
-	$(RM_F)  $(INST_LIB)/Tk/MinMaxScale.pm $(MAKEFILE_OLD) $(FIRST_MAKEFILE)
-
-
-# --- MakeMaker metafile section:
-metafile :
-	$(NOECHO) $(ECHO) '# http://module-build.sourceforge.net/META-spec.html' > META.yml
-	$(NOECHO) $(ECHO) '#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#' >> META.yml
-	$(NOECHO) $(ECHO) 'name:         Tk-MinMaxScale' >> META.yml
-	$(NOECHO) $(ECHO) 'version:      0.09' >> META.yml
-	$(NOECHO) $(ECHO) 'version_from: MinMaxScale.pm' >> META.yml
-	$(NOECHO) $(ECHO) 'installdirs:  site' >> META.yml
-	$(NOECHO) $(ECHO) 'requires:' >> META.yml
-	$(NOECHO) $(ECHO) '    Tk:                            0' >> META.yml
-	$(NOECHO) $(ECHO) '' >> META.yml
-	$(NOECHO) $(ECHO) 'distribution_type: module' >> META.yml
-	$(NOECHO) $(ECHO) 'generated_by: ExtUtils::MakeMaker version 6.17' >> META.yml
-
-
-# --- MakeMaker metafile_addtomanifest section:
-metafile_addtomanifest:
-	$(NOECHO) $(PERLRUN) -MExtUtils::Manifest=maniadd -e 'eval { maniadd({q{META.yml} => q{Module meta-data (added by MakeMaker)}}) } ' \
-	-e '    or print "Could not add META.yml to MANIFEST: $${'\''@'\''}\n"'
+realclean purge ::  clean
+	rm -rf $(INST_AUTODIR) $(INST_ARCHAUTODIR)
+	rm -rf $(DISTVNAME)
+	rm -f  blib/lib/Tk/MinMaxScale.pm
+	rm -rf Makefile Makefile.old
 
 
 # --- MakeMaker dist_basics section:
@@ -467,15 +440,13 @@ veryclean : realclean
 
 # --- MakeMaker dist_core section:
 
-dist : $(DIST_DEFAULT) $(FIRST_MAKEFILE)
-	$(NOECHO) $(PERLRUN) -l -e 'print '\''Warning: Makefile possibly out of date with $(VERSION_FROM)'\''' \
-	-e '    if -e '\''$(VERSION_FROM)'\'' and -M '\''$(VERSION_FROM)'\'' < -M '\''$(FIRST_MAKEFILE)'\'';'
+dist : $(DIST_DEFAULT)
+	@$(PERL) -le 'print "Warning: Makefile possibly out of date with $$vf" if ' \
+	    -e '-e ($$vf="$(VERSION_FROM)") and -M $$vf < -M "Makefile";'
 
 tardist : $(DISTVNAME).tar$(SUFFIX)
-	$(NOECHO) $(NOOP)
 
-uutardist : $(DISTVNAME).tar$(SUFFIX)
-	uuencode $(DISTVNAME).tar$(SUFFIX) $(DISTVNAME).tar$(SUFFIX) > $(DISTVNAME).tar$(SUFFIX)_uu
+zipdist : $(DISTVNAME).zip
 
 $(DISTVNAME).tar$(SUFFIX) : distdir
 	$(PREOP)
@@ -485,14 +456,16 @@ $(DISTVNAME).tar$(SUFFIX) : distdir
 	$(COMPRESS) $(DISTVNAME).tar
 	$(POSTOP)
 
-zipdist : $(DISTVNAME).zip
-	$(NOECHO) $(NOOP)
-
 $(DISTVNAME).zip : distdir
 	$(PREOP)
 	$(ZIP) $(ZIPFLAGS) $(DISTVNAME).zip $(DISTVNAME)
 	$(RM_RF) $(DISTVNAME)
 	$(POSTOP)
+
+uutardist : $(DISTVNAME).tar$(SUFFIX)
+	uuencode $(DISTVNAME).tar$(SUFFIX) \
+		$(DISTVNAME).tar$(SUFFIX) > \
+		$(DISTVNAME).tar$(SUFFIX)_uu
 
 shdist : distdir
 	$(PREOP)
@@ -501,8 +474,8 @@ shdist : distdir
 	$(POSTOP)
 
 
-# --- MakeMaker distdir section:
-distdir : metafile metafile_addtomanifest
+# --- MakeMaker dist_dir section:
+distdir :
 	$(RM_RF) $(DISTVNAME)
 	$(PERLRUN) "-MExtUtils::Manifest=manicopy,maniread" \
 		-e "manicopy(maniread(),'$(DISTVNAME)', '$(DIST_CP)');"
@@ -521,9 +494,9 @@ disttest : distdir
 
 ci :
 	$(PERLRUN) "-MExtUtils::Manifest=maniread" \
-	  -e "@all = keys %{ maniread() };" \
-	  -e "print(qq{Executing $(CI) @all\n}); system(qq{$(CI) @all});" \
-	  -e "print(qq{Executing $(RCS_LABEL) ...\n}); system(qq{$(RCS_LABEL) @all});"
+		-e "@all = keys %{ maniread() };" \
+		-e 'print("Executing $(CI) @all\n"); system("$(CI) @all");' \
+		-e 'print("Executing $(RCS_LABEL) ...\n"); system("$(RCS_LABEL) @all");'
 
 
 # --- MakeMaker install section:
@@ -539,101 +512,86 @@ install_vendor :: all pure_vendor_install doc_vendor_install
 pure_install :: pure_$(INSTALLDIRS)_install
 
 doc_install :: doc_$(INSTALLDIRS)_install
+	@echo Appending installation info to $(INSTALLARCHLIB)/perllocal.pod
 
 pure__install : pure_site_install
-	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
+	@echo INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
 
 doc__install : doc_site_install
-	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
+	@echo INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
 
 pure_perl_install ::
-	$(NOECHO) $(MOD_INSTALL) \
+	@$(MOD_INSTALL) \
 		read $(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist \
-		write $(DESTINSTALLARCHLIB)/auto/$(FULLEXT)/.packlist \
-		$(INST_LIB) $(DESTINSTALLPRIVLIB) \
-		$(INST_ARCHLIB) $(DESTINSTALLARCHLIB) \
-		$(INST_BIN) $(DESTINSTALLBIN) \
-		$(INST_SCRIPT) $(DESTINSTALLSCRIPT) \
-		$(INST_MAN1DIR) $(DESTINSTALLMAN1DIR) \
-		$(INST_MAN3DIR) $(DESTINSTALLMAN3DIR)
-	$(NOECHO) $(WARN_IF_OLD_PACKLIST) \
+		write $(INSTALLARCHLIB)/auto/$(FULLEXT)/.packlist \
+		$(INST_LIB) $(INSTALLPRIVLIB) \
+		$(INST_ARCHLIB) $(INSTALLARCHLIB) \
+		$(INST_BIN) $(INSTALLBIN) \
+		$(INST_SCRIPT) $(INSTALLSCRIPT) \
+		$(INST_MAN1DIR) $(INSTALLMAN1DIR) \
+		$(INST_MAN3DIR) $(INSTALLMAN3DIR)
+	@$(WARN_IF_OLD_PACKLIST) \
 		$(SITEARCHEXP)/auto/$(FULLEXT)
 
 
 pure_site_install ::
-	$(NOECHO) $(MOD_INSTALL) \
+	@$(MOD_INSTALL) \
 		read $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist \
-		write $(DESTINSTALLSITEARCH)/auto/$(FULLEXT)/.packlist \
-		$(INST_LIB) $(DESTINSTALLSITELIB) \
-		$(INST_ARCHLIB) $(DESTINSTALLSITEARCH) \
-		$(INST_BIN) $(DESTINSTALLSITEBIN) \
-		$(INST_SCRIPT) $(DESTINSTALLSCRIPT) \
-		$(INST_MAN1DIR) $(DESTINSTALLSITEMAN1DIR) \
-		$(INST_MAN3DIR) $(DESTINSTALLSITEMAN3DIR)
-	$(NOECHO) $(WARN_IF_OLD_PACKLIST) \
+		write $(INSTALLSITEARCH)/auto/$(FULLEXT)/.packlist \
+		$(INST_LIB) $(INSTALLSITELIB) \
+		$(INST_ARCHLIB) $(INSTALLSITEARCH) \
+		$(INST_BIN) $(INSTALLSITEBIN) \
+		$(INST_SCRIPT) $(INSTALLSCRIPT) \
+		$(INST_MAN1DIR) $(INSTALLSITEMAN1DIR) \
+		$(INST_MAN3DIR) $(INSTALLSITEMAN3DIR)
+	@$(WARN_IF_OLD_PACKLIST) \
 		$(PERL_ARCHLIB)/auto/$(FULLEXT)
 
 pure_vendor_install ::
-	$(NOECHO) $(MOD_INSTALL) \
-		read $(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist \
-		write $(DESTINSTALLVENDORARCH)/auto/$(FULLEXT)/.packlist \
-		$(INST_LIB) $(DESTINSTALLVENDORLIB) \
-		$(INST_ARCHLIB) $(DESTINSTALLVENDORARCH) \
-		$(INST_BIN) $(DESTINSTALLVENDORBIN) \
-		$(INST_SCRIPT) $(DESTINSTALLSCRIPT) \
-		$(INST_MAN1DIR) $(DESTINSTALLVENDORMAN1DIR) \
-		$(INST_MAN3DIR) $(DESTINSTALLVENDORMAN3DIR)
+	@$(MOD_INSTALL) \
+		$(INST_LIB) $(INSTALLVENDORLIB) \
+		$(INST_ARCHLIB) $(INSTALLVENDORARCH) \
+		$(INST_BIN) $(INSTALLVENDORBIN) \
+		$(INST_SCRIPT) $(INSTALLSCRIPT) \
+		$(INST_MAN1DIR) $(INSTALLVENDORMAN1DIR) \
+		$(INST_MAN3DIR) $(INSTALLVENDORMAN3DIR)
 
 doc_perl_install ::
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
+	-@$(MKPATH) $(INSTALLARCHLIB)
+	-@$(DOC_INSTALL) \
 		"Module" "$(NAME)" \
 		"installed into" "$(INSTALLPRIVLIB)" \
 		LINKTYPE "$(LINKTYPE)" \
 		VERSION "$(VERSION)" \
 		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
+		>> $(INSTALLARCHLIB)/perllocal.pod
 
 doc_site_install ::
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
+	-@$(MKPATH) $(INSTALLARCHLIB)
+	-@$(DOC_INSTALL) \
 		"Module" "$(NAME)" \
 		"installed into" "$(INSTALLSITELIB)" \
 		LINKTYPE "$(LINKTYPE)" \
 		VERSION "$(VERSION)" \
 		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
+		>> $(INSTALLSITEARCH)/perllocal.pod
 
 doc_vendor_install ::
-	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
-	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
-	-$(NOECHO) $(DOC_INSTALL) \
-		"Module" "$(NAME)" \
-		"installed into" "$(INSTALLVENDORLIB)" \
-		LINKTYPE "$(LINKTYPE)" \
-		VERSION "$(VERSION)" \
-		EXE_FILES "$(EXE_FILES)" \
-		>> $(DESTINSTALLARCHLIB)/perllocal.pod
 
 
 uninstall :: uninstall_from_$(INSTALLDIRS)dirs
 
 uninstall_from_perldirs ::
-	$(NOECHO) $(UNINSTALL) $(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist
+	@$(UNINSTALL) $(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist
 
 uninstall_from_sitedirs ::
-	$(NOECHO) $(UNINSTALL) $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist
-
-uninstall_from_vendordirs ::
-	$(NOECHO) $(UNINSTALL) $(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist
+	@$(UNINSTALL) $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist
 
 
 # --- MakeMaker force section:
 # Phony target to force checking subdirectories.
 FORCE:
-	$(NOECHO) $(NOOP)
+	@$(NOOP)
 
 
 # --- MakeMaker perldepend section:
@@ -641,17 +599,17 @@ FORCE:
 
 # --- MakeMaker makefile section:
 
-# We take a very conservative approach here, but it's worth it.
+# We take a very conservative approach here, but it\'s worth it.
 # We move Makefile to Makefile.old here to avoid gnu make looping.
-$(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
-	$(NOECHO) $(ECHO) "Makefile out-of-date with respect to $?"
-	$(NOECHO) $(ECHO) "Cleaning current config before rebuilding Makefile..."
-	$(NOECHO) $(RM_F) $(MAKEFILE_OLD)
-	$(NOECHO) $(MV)   $(FIRST_MAKEFILE) $(MAKEFILE_OLD)
-	-$(MAKE) -f $(MAKEFILE_OLD) clean $(DEV_NULL) || $(NOOP)
+Makefile : Makefile.PL $(CONFIGDEP)
+	@echo "Makefile out-of-date with respect to $?"
+	@echo "Cleaning current config before rebuilding Makefile..."
+	-@$(RM_F) Makefile.old
+	-@$(MV) Makefile Makefile.old
+	-$(MAKE) -f Makefile.old clean $(DEV_NULL) || $(NOOP)
 	$(PERLRUN) Makefile.PL 
-	$(NOECHO) $(ECHO) "==> Your Makefile has been rebuilt. <=="
-	$(NOECHO) $(ECHO) "==> Please rerun the make command.  <=="
+	@echo "==> Your Makefile has been rebuilt. <=="
+	@echo "==> Please rerun the make command.  <=="
 	false
 
 
@@ -666,8 +624,8 @@ $(MAP_TARGET) :: static $(MAKE_APERL_FILE)
 	$(MAKE) -f $(MAKE_APERL_FILE) $@
 
 $(MAKE_APERL_FILE) : $(FIRST_MAKEFILE)
-	$(NOECHO) $(ECHO) Writing \"$(MAKE_APERL_FILE)\" for this $(MAP_TARGET)
-	$(NOECHO) $(PERLRUNINST) \
+	@echo Writing \"$(MAKE_APERL_FILE)\" for this $(MAP_TARGET)
+	@$(PERLRUNINST) \
 		Makefile.PL DIR= \
 		MAKEFILE=$(MAKE_APERL_FILE) LINKTYPE=static \
 		MAKEAPERL=1 NORECURS=1 CCCDLFLAGS=
@@ -700,25 +658,16 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd:
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,09,0,0">' > $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <ABSTRACT>Two B&lt;Scale&gt; to get a (min, max) pair of values</ABSTRACT>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <AUTHOR>Jean-Pierre Vidal &lt;jpvidal@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Tk" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <OS NAME="$(OSNAME)" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="i686-linux" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '</SOFTPKG>' >> $(DISTNAME).ppd
-
+	@$(PERL) -e "print qq{<SOFTPKG NAME=\"$(DISTNAME)\" VERSION=\"0,10,0,0\">\n\t<TITLE>$(DISTNAME)</TITLE>\n\t<ABSTRACT>Two B&lt;Scale&gt; to get a (min, max) pair of values</ABSTRACT>\n\t<AUTHOR>Jean-Pierre Vidal &lt;jeanpierre.vidal\@free.fr&gt;</AUTHOR>\n}" > $(DISTNAME).ppd
+	@$(PERL) -e "print qq{\t<IMPLEMENTATION>\n\t\t<DEPENDENCY NAME=\"Tk\" VERSION=\"0,0,0,0\" />\n}" >> $(DISTNAME).ppd
+	@$(PERL) -e "print qq{\t\t<OS NAME=\"$(OSNAME)\" />\n\t\t<ARCHITECTURE NAME=\"i686-linux\" />\n\t\t<CODEBASE HREF=\"\" />\n\t</IMPLEMENTATION>\n</SOFTPKG>\n}" >> $(DISTNAME).ppd
 
 # --- MakeMaker pm_to_blib section:
 
 pm_to_blib: $(TO_INST_PM)
-	$(NOECHO) $(PERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')'\
-	  MinMaxScale.pm $(INST_LIB)/Tk/MinMaxScale.pm 
-	$(NOECHO) $(TOUCH) $@
+	@$(PERLRUNINST) "-MExtUtils::Install" \
+	-e "pm_to_blib({qw{MinMaxScale.pm blib/lib/Tk/MinMaxScale.pm}},'$(INST_LIB)/auto','$(PM_FILTER)')"
+	@$(TOUCH) $@
 
 # --- MakeMaker selfdocument section:
 

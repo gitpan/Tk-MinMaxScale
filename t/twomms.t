@@ -1,24 +1,19 @@
 #!perl -w
 use strict;
+use diagnostics;
 use Tk;
 use Test;
-use Tk::ROText;
 
-BEGIN { plan tests => 1 }
+BEGIN { plan tests => 130 }
 
 use Tk::MinMaxScale;
+my $delay = 20;
+
+my $mw = new MainWindow;
 
 my $vn = 94;
 my $vx = 117;
-my $wn = 65;
-my $wx = 86;
-
-my $timetest = 10;
-
-my $top = new MainWindow;
-$top->after( $timetest * 1000, sub { ok(1); exit; } );
-
-my $mms1 = $top->MinMaxScale(
+my $mms1 = $mw->MinMaxScale(
 	-from => 50.0,
 	-to => 150.0,
 	-orient => 'horizontal',
@@ -31,9 +26,11 @@ my $mms1 = $top->MinMaxScale(
 	-variablemax => \$vx,
 )->pack;
 
-my $mms2 = $top->MinMaxScale(
+my $wn = 50;
+my $wx = 70;
+my $mms2 = $mw->MinMaxScale(
 	-from => 30,
-	-to => 120,
+	-to => 80,
 	-orient => 'vertical',
 	-resolution => 1,
 	-label => 'min-max',
@@ -41,13 +38,84 @@ my $mms2 = $top->MinMaxScale(
 	-variablemax => \$wx,
 )->pack;
 
-my $stop = new MainWindow;
-my $rot = $stop->ROText(-wrap => 'word')->pack;
-$rot->insert('end', "test running for about $timetest seconds\n\n");
-
-$stop->after( $timetest * 1000, sub { exit; } );
+$mw->after(1000, &start_test);
 
 MainLoop;
+
+sub start_test {
+	for (1..19) {
+		$wn++;
+		$mw->after($delay, $mw->update);
+		ok($wn < $wx);
+	}
+	for (20..29) {
+		$wn++;
+		$mw->after($delay, $mw->update);
+ 		ok($wx == $wn);
+	}
+	for (30..31) {
+		$wn++;
+		$mw->after($delay, $mw->update);
+		ok($wn == 80);
+		ok($wx == 80);
+	}
+
+	sleep 1;
+
+	$wn = 40;
+	$wx = 60;
+	for (1..19) {
+		$wx--;
+		$mw->after($delay, $mw->update);
+		ok($wx > $wn);
+	}
+	for (20..29) {
+		$wx--;
+		$mw->after($delay, $mw->update);
+ 		ok($wn == $wx);
+	}
+	for (30..31) {
+		$wx--;
+		$mw->after($delay, $mw->update);
+		ok($wn == 30);
+		ok($wx == 30);
+	}
+
+	sleep 1;
+
+	$wn = 40;
+	$wx = 60;
+
+	sleep 1;
+
+	$mw->eventGenerate('<Shift_L>');
+	for (1..30) {
+		$wn++;
+		$mw->after($delay, $mw->update);
+		ok(($wx - $wn) == 20);
+	}
+	ok($wn == 60);
+	ok($wx == 80);
+
+	sleep 1;
+
+	$wn = 40;
+	$wx = 60;
+
+	sleep 1;
+
+	for (1..30) {
+		$wx--;
+		$mw->after($delay, $mw->update);
+		ok(($wx - $wn) == 20);
+	}
+	ok($wn == 30);
+	ok($wx == 50);
+
+	# that's all folks
+	sleep 1;
+	exit;
+}
 
 sub s1 {
 	# does nothing

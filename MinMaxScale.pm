@@ -1,216 +1,263 @@
 package Tk::MinMaxScale;
 use Carp;
 use Tk;
-#use warnings; #################### fot tests ################################
+use Tie::Watch;
+#use warnings; #################### for tests ################################
 #use Data::Dumper; ################ for tests ################################
 
-@ISA = qw(Tk::Frame);
+use base qw(Tk::Frame);
 
-$VERSION = '0.09';
+$VERSION = '0.10';
 
 Construct Tk::Widget 'MinMaxScale';
 
+sub ClassInit {
+	my ($class, $mw) = @_;
+	$class->SUPER::ClassInit($mw);
+}
+
 my $shifted; # is Shift-Key pressed ?
+my $DEBUG = 0;
 
 sub Populate {
 	my ($cw, $args) = @_;
 	$cw->SUPER::Populate($args);
 
 	my $pn = __PACKAGE__;
-	delete $args->{'-variable'} && carp("$pn warning: option \"-variable\" not allowed");
+	delete $args->{'-variable'} && carp("$pn warning: option \"-variable\" is not allowed");
 
 	# let's make the widget horizontal unless defined other specs
-	$cw->{mms}{'orient'} = delete $args->{'-orient'};
-	$cw->{mms}{'orient'} = 'horizontal' unless defined $cw->{mms}{'orient'};
-	my $sideforpack = $cw->{mms}{'orient'} eq 'vertical' ? 'left' : 'top';
+	$cw->{'mms_orient'} = delete $args->{'-orient'};
+	$cw->{'mms_orient'} = 'horizontal' unless defined $cw->{'mms_orient'};
+	my $sideforpack = $cw->{'mms_orient'} eq 'vertical' ? 'left' : 'top';
 
-	$cw->{mms}{'command'} = delete $args->{'-command'};
-	$cw->{mms}{'command'} = sub {} unless defined $cw->{mms}{'command'};
+	$cw->{'mms_command'} = delete $args->{'-command'};
+	$cw->{'mms_command'} = sub {} unless defined $cw->{'mms_command'};
 
-	$cw->{mms}{'from'} = delete $args->{'-from'};
-	$cw->{mms}{'from'} = 0 unless defined $cw->{mms}{'from'};
-	$cw->{mms}{'to'} = delete $args->{'-to'};
-	$cw->{mms}{'to'} = 100 unless defined $cw->{mms}{'to'};
+	$cw->{'mms_from'} = delete $args->{'-from'};
+	$cw->{'mms_from'} = 0 unless defined $cw->{'mms_from'};
+	$cw->{'mms_to'} = delete $args->{'-to'};
+	$cw->{'mms_to'} = 100 unless defined $cw->{'mms_to'};
 
-	$cw->{mms}{'variablemin'} = delete $args->{'-variablemin'};
-	if (!defined $cw->{mms}{'variablemin'}) {
-		$cw->{mms}{'variablemin'} = \$cw->{mms}{'valeurmin'};
-		$cw->{mms}{'valeurmin'} = $cw->{mms}{'from'};
+	$cw->{'mms_labelmin'} = delete $args->{'-labelmin'};
+	$cw->{'mms_labelmax'} = delete $args->{'-labelmax'};
+
+	$cw->{'mms_variablemin'} = delete $args->{'-variablemin'};
+	if (!defined $cw->{'mms_variablemin'}) {
+		$cw->{'mms_variablemin'} = \$cw->{'mms_valeurmin'};
+		${$cw->{'mms_variablemin'}} = $cw->{'mms_from'};
 	}
-	$cw->{mms}{'oldmin'} = ${$cw->{mms}{'variablemin'}};
+	$cw->{'mms_oldmin'} = ${$cw->{'mms_variablemin'}};
 
-	$cw->{mms}{'variablemax'} = delete $args->{'-variablemax'};
-	if (!defined $cw->{mms}{'variablemax'}) {
-		$cw->{mms}{'variablemax'} = \$cw->{mms}{'valeurmax'};
-		$cw->{mms}{'valeurmax'} = $cw->{mms}{'to'};
+	$cw->{'mms_variablemax'} = delete $args->{'-variablemax'};
+	if (!defined $cw->{'mms_variablemax'}) {
+		$cw->{'mms_variablemax'} = \$cw->{'mms_valeurmax'};
+		${$cw->{'mms_variablemax'}} = $cw->{'mms_to'};
 	}
-	$cw->{mms}{'oldmax'} = ${$cw->{mms}{'variablemax'}};
+	$cw->{'mms_oldmax'} = $cw->{'mms_to'};
 
-	$cw->{mms}{'labelmin'} = delete $args->{'-labelmin'};
-	$cw->{mms}{'labelmax'} = delete $args->{'-labelmax'};
-
-	# create the subwidget 'min' Scale
+	# create the 'min' Scale subwidget
 	my $smin = $cw->Scale(
 		%$args,
-		-variable => $cw->{mms}{'variablemin'},
-		-label => $cw->{mms}{'labelmin'},
-		-orient => $cw->{mms}{'orient'},
-		-from => $cw->{mms}{'from'},
-		-to => $cw->{mms}{'to'},
-		-command => sub {
-			my $oldmin = $cw->{mms}{'oldmin'};
-			my $oldmax = $cw->{mms}{'oldmax'};
-			my $valmin = ${$cw->{mms}{'variablemin'}};
-			my $valmax = ${$cw->{mms}{'variablemax'}};
-			my $to = $cw->{mms}{'to'};
-			if ($shifted) {
-				my $distance = $oldmax - $oldmin; # distance between sliders
-				my $distancemin = $to - $valmin; # distance between min slider and maximum
-				if ($distancemin < $distance) {
-					${$cw->{mms}{'variablemin'}} = $valmax - $distance;
-					return;
-				} else {
-					${$cw->{mms}{'variablemax'}} = $valmin + $distance;
-				}
-			} else {
-				${$cw->{mms}{'variablemax'}} = $valmin  if $valmin > $valmax;
-			}
-			$cw->{mms}{'oldmin'} = ${$cw->{mms}{'variablemin'}};
-			$cw->{mms}{'oldmax'} = ${$cw->{mms}{'variablemax'}};
-			my $cmd = $cw->{mms}{'command'};
-			&$cmd;
-		},
+		-variable => $cw->{'mms_variablemin'},
+		-label => $cw->{'mms_labelmin'},
+		-orient => $cw->{'mms_orient'},
+		-from => $cw->{'mms_from'},
+		-to => $cw->{'mms_to'},
 	)->pack(-side => $sideforpack);
-	$cw->Advertise('smin' => $smin);
 
-	# create the subwidget 'max' Scale
+	$cw->{'mms_watchmin'} = Tie::Watch->new(
+		-variable => $cw->{'mms_variablemin'},
+		-store => \&submin,
+		-debug => $DEBUG,
+	);
+
+	# create the 'max' Scale subwidget
 	my $smax = $cw->Scale(
 		%$args,
-		-variable => $cw->{mms}{'variablemax'},
-		-label => $cw->{mms}{'labelmax'},
-		-orient => $cw->{mms}{'orient'},
-		-from => $cw->{mms}{'from'},
-		-to => $cw->{mms}{'to'},
-		-command => sub {
-			my $oldmin = $cw->{mms}{'oldmin'};
-			my $oldmax = $cw->{mms}{'oldmax'};
-			my $valmin = ${$cw->{mms}{'variablemin'}};
-			my $valmax = ${$cw->{mms}{'variablemax'}};
-			my $from = $cw->{mms}{'from'};
-			if ($shifted) {
-				my $distance = $oldmax - $oldmin; # distance between sliders
-				my $distancemax = $valmax - $from; # distance between minimum and max slider
-				if ($distancemax < $distance) {
-					${$cw->{mms}{'variablemax'}} = $valmin + $distance;
-					return;
-				} else {
-					${$cw->{mms}{'variablemin'}} = $valmax - $distance;
-				}
-			} else {
-				${$cw->{mms}{'variablemin'}} = $valmax if $valmax < $valmin;
-			}
-			$cw->{mms}{'oldmin'} = ${$cw->{mms}{'variablemin'}};
-			$cw->{mms}{'oldmax'} = ${$cw->{mms}{'variablemax'}};
-			my $cmd = $cw->{mms}{'command'};
-			&$cmd;
-		},
+		-variable => $cw->{'mms_variablemax'},
+		-label => $cw->{'mms_labelmax'},
+		-orient => $cw->{'mms_orient'},
+		-from => $cw->{'mms_from'},
+		-to => $cw->{'mms_to'},
 	)->pack(-side => $sideforpack);
-	$cw->Advertise('smax' => $smax);
+
+	$cw->{'mms_watchmax'} = Tie::Watch->new(
+		-variable => $cw->{'mms_variablemax'},
+		-store => \&submax,
+		-debug => $DEBUG,
+	);
+
+	$cw->{'mms_watchmin'}->{'cw'} = $cw;
+	$cw->{'mms_watchmax'}->{'cw'} = $cw;
 
 	$cw->toplevel->bind("<Key>", [ \&is_shift_key, Ev('s'), Ev('K') ] );
 	$cw->toplevel->bind("<KeyRelease>", [ \&is_shift_key, Ev('s'), Ev('K') ] );
 
 	$cw->ConfigSpecs (
-		-from => 		[METHOD, undef, undef, 0],
-		-to => 			[METHOD, undef, undef, 100],
+		-from => 		[METHOD, undef, undef, undef],
+		-to => 			[METHOD, undef, undef, undef],
 		-variablemin => [METHOD, undef, undef, undef],
 		-variablemax => [METHOD, undef, undef, undef],
 		-labelmin => 	[METHOD, undef, undef, undef],
 		-labelmax => 	[METHOD, undef, undef, undef],
-		-orient => 		[METHOD, undef, undef, 'horizontal'],
+		-orient => 		[METHOD, undef, undef, undef],
 		-command =>     [METHOD, undef, undef, undef],
 		DEFAULT => 		[[$smin, $smax], undef, undef, undef],
 	);
+
+	$cw->Advertise('smin' => $smin);
+	$cw->Advertise('smax' => $smax);
+}
+
+sub submin {
+	my ($var, $valmin) = @_;
+	my $cw = $var->{'cw'};
+	my $oldmin = $cw->{'mms_oldmin'};
+	my $oldmax = $cw->{'mms_oldmax'};
+	my $valmax = ${$cw->{'mms_variablemax'}};
+	my $to = $cw->{'mms_to'};
+	$valmin = $to if $valmin > $to;
+	if ($shifted) {
+		my $distance = $oldmax - $oldmin; # distance between sliders
+		my $distancemin = $to - $valmin; # distance between min slider and maximum
+		if ($distancemin < $distance) {
+			${$cw->{'mms_variablemin'}} = $valmax - $distance;
+			return;
+		} else {
+			${$cw->{'mms_variablemax'}} = $valmin + $distance;
+		}
+	} else {
+		${$cw->{'mms_variablemax'}} = $valmin  if $valmin > $valmax;
+	}
+	$cw->{'mms_oldmin'} = ${$cw->{'mms_variablemin'}};
+	$cw->{'mms_oldmax'} = ${$cw->{'mms_variablemax'}};
+	$var->Store($valmin);
+	# users callback
+	my $cmd = $cw->{'mms_command'};
+	&$cmd;
+}
+
+sub submax {
+	my ($var, $valmax) = @_;
+	my $cw = $var->{'cw'};
+	my $oldmin = $cw->{'mms_oldmin'};
+	my $oldmax = $cw->{'mms_oldmax'};
+	my $valmin = ${$cw->{'mms_variablemin'}};
+	my $from = $cw->{'mms_from'};
+	$valmax = $from if $valmax < $from;
+	if ($shifted) {
+		my $distance = $oldmax - $oldmin; # distance between sliders
+		my $distancemax = $valmax - $from; # distance between minimum and max slider
+		if ($distancemax < $distance) {
+			${$cw->{'mms_variablemax'}} = $valmin + $distance;
+			return;
+		} else {
+			${$cw->{'mms_variablemin'}} = $valmax - $distance;
+		}
+	} else {
+		${$cw->{'mms_variablemin'}} = $valmax if $valmax < $valmin;
+	}
+	$cw->{'mms_oldmin'} = ${$cw->{'mms_variablemin'}};
+	$cw->{'mms_oldmax'} = ${$cw->{'mms_variablemax'}};
+	$var->Store($valmax);
+	# users callback
+	my $cmd = $cw->{'mms_command'};
+	&$cmd;
 }
 
 sub command {
 	my ($cw, $val) = @_;
-	$cw->{mms}{'command'} = $val if $val;
+	$cw->{'mms_command'} = $val if $val;
 }
 
 sub orient {
 	my ($cw, $val) = @_;
 	if ($val) {
-		$cw->{mms}{'orient'} = $val;
+		$cw->{'mms_orient'} = $val;
 		my $sideforpack = $val eq 'vertical' ? 'left' : 'top';
 		$cw->Subwidget('smin')->configure(-orient => $val);
 		$cw->Subwidget('smin')->pack(-side => $sideforpack);
 		$cw->Subwidget('smax')->configure(-orient => $val);
 		$cw->Subwidget('smax')->pack(-side => $sideforpack);
 	}
-	return $cw->{mms}{'orient'};
+	return $cw->{'mms_orient'};
 }
 
 sub labelmin {
 	my ($cw, $val) = @_;
 	if ($val) {
-		$cw->{mms}{'labelmin'} = $val;
+		$cw->{'mms_labelmin'} = $val;
 		$cw->Subwidget('smin')->configure(-label => $val);
 	}
-	return $cw->{mms}{'labelmin'};
+	return $cw->{'mms_labelmin'};
 }
 
 sub labelmax {
 	my ($cw, $val) = @_;
 	if ($val) {
-		$cw->{mms}{'labelmax'} = $val;
+		$cw->{'mms_labelmax'} = $val;
 		$cw->Subwidget('smax')->configure(-label => $val);
 	}
-	return $cw->{mms}{'labelmax'};
+	return $cw->{'mms_labelmax'};
 }
 
 sub variablemin {
 	my ($cw, $val) = @_;
-	if ( ($val) && ($val != $cw->{mms}{'variablemin'}) ) {
-		$cw->{mms}{'variablemin'} = $val;
+	if ( ($val) && ($val != $cw->{'mms_variablemin'}) ) {
+		$cw->{'mms_watchmin'}->Unwatch;
+		$cw->{'mms_variablemin'} = $val;
+		$cw->{'mms_watchmin'} = Tie::Watch->new(
+			-variable => $cw->{'mms_variablemin'},
+			-store => \&submin,
+			-debug => $DEBUG,
+		);
+		$cw->{'mms_watchmin'}->{'cw'} = $cw;
 		my $scale = $cw->Subwidget('smin');
 		$scale->configure(-variable => $val);
 	}
-	return $cw->{mms}{'variablemin'};
+	return $cw->{'mms_variablemin'};
 }
 
 sub variablemax {
 	my ($cw, $val) = @_;
-	if ( ($val) && ($val != $cw->{mms}{'variablemax'}) ) {
-		$cw->{mms}{'variablemax'} = $val;
+	if ( ($val) && ($val != $cw->{'mms_variablemax'}) ) {
+		$cw->{'mms_watchmax'}->Unwatch;
+		$cw->{'mms_variablemax'} = $val;
+		$cw->{'mms_watchmax'} = Tie::Watch->new(
+			-variable => $cw->{'mms_variablemax'},
+			-store => \&submax,
+			-debug => $DEBUG,
+		);
+		$cw->{'mms_watchmax'}->{'cw'} = $cw;
 		my $scale = $cw->Subwidget('smax');
 		$scale->configure(-variable => $val);
 	}
-	return $cw->{mms}{'variablemax'};
+	return $cw->{'mms_variablemax'};
 }
 
 sub from {
 	my ($cw, $val) = @_;
-	if ( ($val) && ($val <= $cw->{mms}{'to'}) ) {
-		$cw->{mms}{'from'} = $val;
+	if ( ($val) && ($val < $cw->{'mms_to'}) ) {
+		$cw->{'mms_from'} = $val;
 		my $scale = $cw->Subwidget('smin');
 		$scale->configure(-from => $val);
 		$scale = $cw->Subwidget('smax');
 		$scale->configure(-from => $val);
 	}
-	return $cw->{mms}{'from'};
+	return $cw->{'mms_from'};
 }
 
 sub to {
 	my ($cw, $val) = @_;
-	if ( ($val) && ($val >= $cw->{mms}{'from'}) ) {
-		$cw->{mms}{'to'} = $val;
+	if ( ($val) && ($val > $cw->{'mms_from'}) ) {
+		$cw->{'mms_to'} = $val;
 		my $scale = $cw->Subwidget('smin');
 		$scale->configure(-to => $val);
 		$scale = $cw->Subwidget('smax');
 		$scale->configure(-to => $val);
 	}
-	return $cw->{mms}{'to'};
+	return $cw->{'mms_to'};
 }
 
 sub is_shift_key {
@@ -218,19 +265,25 @@ sub is_shift_key {
 }
 
 sub minvalue {
-	my $cw = shift;
-	my $refval = $cw->{mms}{'variablemin'};
-	$$refval = shift if @_;
-	$cw->{mms}{'oldmin'} = $$refval;
-	return $$refval;
+	my ($cw, $val) = @_;
+	my $scalemin = $cw->Subwidget('smin');
+	if ($val) {
+		$scalemin->set($val);
+		my $scalemax = $cw->Subwidget('smax');
+		$scalemax->set($val) if $scalemax->get() < $val;
+	}
+	$scalemin->get();
 }
 
 sub maxvalue {
-	my $cw = shift;
-	my $refval = $cw->{mms}{'variablemax'};
-	$$refval = shift if @_;
-	$cw->{mms}{'oldmax'} = $$refval;
-	return $$refval;
+	my ($cw, $val) = @_;
+	my $scalemax = $cw->Subwidget('smax');
+	if ($val) {
+		$scalemax->set($val);
+		my $scalemin = $cw->Subwidget('smin');
+		$scalemin->set($val) if $scalemin->get() > $val;
+	}
+	$scalemax->get();
 }
 
 1;
@@ -270,7 +323,7 @@ the value of the 'maximum' B<Scale>.
 
 The purpose of Tk::MinMaxScale is to get a range of values narrower
 than the whole range given by the options B<-from> and B<-to>
-(who are applied to both 'minimum' and 'maximum' Scale).
+(which are applied to both 'minimum' and 'maximum' Scale).
 This is done through the variables associated to the options B<-variablemin>
 and B<-variablemax>, or via the methods B<minvalue> and B<maxvalues>, see below.
 
@@ -279,8 +332,8 @@ locking their distance. You must hold down the B<Shift> key before dragging a sl
 
 =head1 OPTIONS
 
-The widget accepts all options accepted by B<Scale> (except B<-variable> option),
-and their default value (exception: option B<-orient> defaults to 'horizontal').
+The widget accepts all options accepted by B<Scale> (except for B<-variable> option),
+and their default value (with the exception for B<-orient> option which defaults to 'horizontal').
 
 In addition, the following option/value pairs are supported, but not required:
 
@@ -300,7 +353,7 @@ A reference to a global variable linked with the 'minimum' Scale.
 
 A reference to a global variable linked with the 'maximum' Scale.
 
-All other options are applied to both 'min' and 'max' Scale(s).
+All other options are applied to both 'minimum' and 'maximum' Scale(s).
 
 =head1 METHODS
 
@@ -313,83 +366,24 @@ The following additional methods are available for MinMaxScale widgets:
 
 =item I<$mms>->B<minvalue>(?I<value>?)
 
-Sets the 'min' Scale of the widget to I<value>, if any
-(limited by 'B<-from>' value and the 'max' Scale value).
-Returns the value of the 'min' Scale.
+If I<value> is defined, sets the 'minimum' Scale of the widget to I<value>
+(limited by 'B<-from>' value and the value of the 'maximum' Scale).
+Returns the value of the 'minimum' Scale.
 
 =item I<$mms>->B<maxvalue>(?I<value>?)
 
-Sets the 'max' Scale of the widget to I<value>, if any
-(limited by the 'min' Scale value and 'B<-to>' values).
-Returns the value of the 'max' Scale.
+If I<value> is defined, sets the 'maximum' Scale of the widget to I<value>
+(limited by the value of the 'minimum' Scale and 'B<-to>' value).
+Returns the value of the 'maximum' Scale.
 
-=head1 HISTORY
+=head1 BUGS / CAVEAT
 
-=item B<v0.09> - 2004/01/31
-
-=item -
-configure and cget methods implemented.
-
-=item B<v0.08> - 2004/01/04
-
-=item -
-compatibility with Tk804.xxx (dash before option).
-
-=item B<v0.07> - 2002/11/21
-
-=item -
-added tests.
-
-=item B<v0.06> - 2002/11/20
-
-=item -
-dropped "use warnings" and "use diagnostics".
-
-=item -
-cleaned up the distribution package.
-
-=item B<v0.05> - 2002/11/05
-
-=item -
-unlike Scale, 'B<-orient>' option defaults now to 'horizontal'.
-
-=item -
-like Scale, 'B<-from>' and 'B<-to>' options defaults now to 0 and 100, respectively.
-
-=item -
-definitely (:() fixed Shift-key binding problems.
-
-=item B<v0.04> - 2002/11/01
-
-=item -
-enhanced methods B<minvalue> and B<maxvalue> to set|get the scale values.
-
-=item B<v0.03> - 2002/11/01
-
-=item -
-fixed some problems when dragging while depressing shift key
-
-=item -
-added methods B<minvalue> and B<maxvalue>
-
-=item B<v0.02> - 2002/10/24
-
-=item -
-new feature added: dragging a slider while pressing a B<Shift> key
-drags both sliders, locking their distance (an idea from Mark Lakata).
-
-=item B<v0.01> - 2002/10/17
-
-=item -
-first release.
+At present, you are not allowed to configure I<-variablemin> or I<-variablemax> with a variable attached to another Tk::MinMaxScale widget.
 
 =head1 TODO
 
 =item -
-switch to a 'one groove, two sliders' scale : I think it is not a so good idea.
-
-=item -
-make some test programs.
+switch to a 'one groove, two sliders' scale: I think this is not a so good idea.
 
 =head1 AUTHOR & LICENSE
 
