@@ -1,11 +1,11 @@
-Tk/MinMaxScale version 0.07
+Tk/MinMaxScale version 0.08
 ===========================
 
 Tk::MinMaxScale - Two Scale(s) to get a (min, max) values pair
 
-CHANGES
+CHANGES from 0.07
 
-	- added tests.
+	- compatibility with Tk804.xxx (dash before option).
 
 INSTALLATION
 
@@ -18,7 +18,7 @@ To install this module type the following:
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2002 Jean-Pierre Vidal
+Copyright (C) 2002-2004 Jean-Pierre Vidal
 
 This package is free software and is provided "as is"
 without express or implied warranty. It may be used, modified,

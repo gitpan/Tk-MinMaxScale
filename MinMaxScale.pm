@@ -4,7 +4,7 @@ use Tk;
 
 @ISA = qw(Tk::Frame);
 
-$VERSION = '0.07';
+$VERSION = '0.08';
 
 Construct Tk::Widget 'MinMaxScale';
 
@@ -86,7 +86,7 @@ sub Populate {
 			return;
 		},
 	);
-	$smin->pack(side => $sideforpack);
+	$smin->pack(-side => $sideforpack);
 
 	# create the subwidget 'max' Scale
 	$smax = $cw->Scale(
@@ -117,7 +117,7 @@ sub Populate {
 			return;
 		},
 	);
-	$smax->pack(side => $sideforpack);
+	$smax->pack(-side => $sideforpack);
 
 	$cw->ConfigSpecs (
 		DEFAULT => [PASSIVE],
@@ -232,6 +232,14 @@ bounded by 'B<minvalue>' and 'B<-to>' values.
 
 =head1 HISTORY
 
+=item B<v0.08> - 2004/01/04
+
+=over 2
+
+=item -
+
+compatibility with Tk804.xxx (dash before option).
+
 =item B<v0.07> - 2002/11/21
 
 =over 2
@@ -310,7 +318,8 @@ first release.
 
 =head1 TODO
 
-- switch to a 'one groove, two sliders' scale.
+- answer to 'configure' inquiry.
+- switch to a 'one groove, two sliders' scale. This is not a so good idea.
 
 =head1 AUTHOR
 
