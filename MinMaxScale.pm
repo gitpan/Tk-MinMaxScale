@@ -2,10 +2,11 @@ package Tk::MinMaxScale;
 use warnings;
 use diagnostics;
 use Carp;
+use Tk;
 
 @ISA = qw(Tk::Frame);
 
-$VERSION = '0.04';
+$VERSION = '0.05';
 
 Construct Tk::Widget 'MinMaxScale';
 
@@ -17,13 +18,27 @@ sub Populate {
 	my ($oldmin, $oldmax); # previous values of the variables
 	my ($minlbl, $maxlbl); # labels for the scales
 	my $cmd; # reference to a callback associated with any change
+	my $orient; # 'horizontal' or 'vertical'
 	my ($vmin, $vmax); # just in case the caller don't provide variables
+	my $to;
+	my $from;
 
 	my ($cw, $args) = @_;
 	$cw->SUPER::Populate($args);
 
 	my $pn = __PACKAGE__;
 	delete $args->{'-variable'} && carp("$pn warning: option \"-variable\" not allowed");
+
+	# let's make the widget horizontal unless defined other specs
+	$orient = delete $args->{'-orient'};
+	$orient = 'horizontal' unless defined $orient;
+	my $sideforpack = $orient eq 'vertical' ? 'left' : 'top';
+
+	$to = delete $args->{'-to'};
+	$to = 100 unless defined $to;
+
+	$from = delete $args->{'-from'};
+	$from = 0 unless defined $from;
 
 	$minvar = delete $args->{'-variablemin'};
 	if (!defined $minvar) {
@@ -45,15 +60,17 @@ sub Populate {
 	$cmd = sub {} unless defined $cmd;
 
 	# create the subwidget 'min' Scale
-	$smin = $cw->Component(
-		'Scale', 'top',
+	$smin = $cw->Scale(
 		%$args,
 		-variable => $minvar,
 		-label => $minlbl,
+		-orient => $orient,
+		-from => $from,
+		-to => $to,
 		-command => sub {
 			if ($shifted) {
 				my $distance = $oldmax - $oldmin; # distance between sliders
-				my $distancemin = $args->{'-to'} - $$minvar; # distance between min slider and maximum
+				my $distancemin = $to - $$minvar; # distance between min slider and maximum
 				if ($distancemin < $distance) {
 					$$minvar = $$maxvar - $distance;
 					return;
@@ -63,24 +80,28 @@ sub Populate {
 			} else {
 				$$maxvar = $$minvar if $$minvar > $$maxvar;
 			}
-			if (($$minvar != $oldmin) || ($$maxvar != $oldmax)) {
+			if ((!defined $oldmin) || (!defined $oldmax) || ($$minvar != $oldmin) || ($$maxvar != $oldmax)) {
 				$oldmin = $$minvar;
 				$oldmax = $$maxvar;
 				&$cmd;
 			}
+			return;
 		},
-	)->pack;
+	);
+	$smin->pack(side => $sideforpack);
 
 	# create the subwidget 'max' Scale
-	$smax = $cw->Component(
-		Scale => 'top',
+	$smax = $cw->Scale(
 		%$args,
 		-variable => $maxvar,
 		-label => $maxlbl,
+		-orient => $orient,
+		-from => $from,
+		-to => $to,
 		-command => sub {
 			if ($shifted) {
 				my $distance = $oldmax - $oldmin; # distance between sliders
-				my $distancemax = $$maxvar - $args->{'-from'}; # distance between minimum and max slider
+				my $distancemax = $$maxvar - $from; # distance between minimum and max slider
 				if ($distancemax < $distance) {
 					$$maxvar = $$minvar + $distance;
 					return;
@@ -95,8 +116,10 @@ sub Populate {
 				$oldmax = $$maxvar;
 				&$cmd;
 			}
+			return;
 		},
-	)->pack;
+	);
+	$smax->pack(side => $sideforpack);
 
 	$cw->ConfigSpecs (
 		DEFAULT => [PASSIVE],
@@ -104,21 +127,12 @@ sub Populate {
 		-variablemax => [$maxvar, undef, undef, undef],
 	);
 
-	$cw->bind($smin, "<Shift-Button-1>", sub { $shifted = 1; } );
-	$cw->bind($smin, "<Shift-ButtonRelease-1>", sub { $shifted = 0; });
-	$cw->bind($smin, "<ButtonRelease-1>", sub { $shifted = 0; });
-	$cw->bind($smin, "<KeyRelease-Shift_L>", sub { $shifted = 0; });
+	$cw->toplevel->bind("<Key>", [ \&is_shift_key, Ev('s'), Ev('K') ] );
+	$cw->toplevel->bind("<KeyRelease>", [ \&is_shift_key, Ev('s'), Ev('K') ] );
+}
 
-	$cw->bind($smax, "<Shift-Button-1>", sub { $shifted = 1; } );
-	$cw->bind($smax, "<Shift-ButtonRelease-1>", sub { $shifted = 0; });
-	$cw->bind($smax, "<ButtonRelease-1>", sub { $shifted = 0; });
-	$cw->bind($smax, "<KeyRelease>", sub { $shifted = 0; });
-
-#	this code doesn't function : why?
-#	$cw->bind(Tk::Scale, "<Shift-Button-1>", sub { $shifted = 1; } );
-#	$cw->bind(Tk::Scale, "<Shift-ButtonRelease-1>", sub { $shifted = 0; });
-#	$cw->bind(Tk::Scale, "<ButtonRelease-1>", sub { $shifted = 0; });
-#	$cw->bind(Tk::Scale, "<KeyRelease>", sub { $shifted = 0; });
+sub is_shift_key {
+	$shifted = ($_[1] =~ /^Shift/) && ($_[2] =~ /^Shift/) ? 0 : 1;
 }
 
 sub minvalue {
@@ -165,7 +179,7 @@ I<$mms>-E<gt>B<maxvalue>($var);
 
 =head1 DESCRIPTION
 
-Tk::MinMaxScale is a Frame-based widget including two Scale widgets,
+Tk::MinMaxScale is a Frame-based widget wrapping two Scale widgets,
 the first acting as a 'minimum' and the second as a 'maximum'.
 The value of 'minimum' is always less than or equal to the value of 'maximum'.
 
@@ -180,8 +194,9 @@ locking their distance. You must hold down the B<Shift> key before dragging a sl
 
 =head1 OPTIONS
 
-The widget accept all options accepted by B<Scale> and their default value,
-except B<-variable>. In addition, the following option/value pairs are supported, but not required:
+The widget accepts all options accepted by B<Scale> (except B<-variable> option),
+and their default value (except for B<-orient> option wich defaults to 'horizontal').
+In addition, the following option/value pairs are supported, but not required:
 
 =over 4
 
@@ -209,23 +224,37 @@ A reference to a global variable linked with the 'maximum' Scale.
 
 =item B<minvalue>
 
-Get the value of 'min' scale. With an argument, set the value of 'min' scale.
-Bounded by 'B<-from>' and 'B<maxvalue>' values.
+Get the value of 'min' scale. With an argument, set the value of 'min' scale,
+bounded by 'B<-from>' and 'B<maxvalue>' values.
 
 =item B<maxvalue>
 
-Get the value of 'max' scale. With an argument, set the value of 'max' scale.
-Bounded by 'B<minvalue>' and 'B<-to>' values.
+Get the value of 'max' scale. With an argument, set the value of 'max' scale,
+bounded by 'B<minvalue>' and 'B<-to>' values.
 
 =head1 HISTORY
+
+=item B<v0.05> - 2002/11/05
+
+=over 2
+
+=item -
+unlike Scale, 'B<-orient>' option defaults now to 'horizontal'.
+
+=item -
+like Scale, 'B<-from>' and 'B<-to>' options defaults now to 0 and 100, respectively.
+
+=item -
+definitely (:() fixed Shift-key binding problems.
+
+=back
 
 =item B<v0.04> - 2002/11/01
 
 =over 2
 
 =item -
-
-enhanced methods B<minvalue> and B<maxvalue> to set|get the values of the scales.
+enhanced methods B<minvalue> and B<maxvalue> to set|get the scale values.
 
 =back
 
@@ -234,11 +263,9 @@ enhanced methods B<minvalue> and B<maxvalue> to set|get the values of the scales
 =over 2
 
 =item -
-
 fixed some problems when dragging while depressing shift key
 
 =item -
-
 added methods B<minvalue> and B<maxvalue>
 
 =back
@@ -248,7 +275,6 @@ added methods B<minvalue> and B<maxvalue>
 =over 2
 
 =item -
-
 new feature added: dragging a slider while pressing a B<Shift> key
 drags both sliders, locking their distance (an idea from Mark Lakata).
 
@@ -259,7 +285,6 @@ drags both sliders, locking their distance (an idea from Mark Lakata).
 =over 2
 
 =item -
-
 first release.
 
 =back

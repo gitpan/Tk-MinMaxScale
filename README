@@ -1,11 +1,13 @@
-Tk/MinMaxScale version 0.04
+Tk/MinMaxScale version 0.05
 ===========================
 
 Tk::MinMaxScale - Two Scale(s) to get a (min, max) values pair
 
 CHANGES
 
-- enhanced methods B<minvalue> and B<maxvalue> to set|get the values of the scales.
+- unlike Scale, '-orient' option defaults now to 'horizontal'.
+- like Scale, '-from' and '-to' options defaults now to 0 and 100, respectively.
+- definitely (:() fixed Shift-key binding problems.
 
 
 INSTALLATION
@@ -15,13 +17,6 @@ To install this module type the following:
    perl Makefile.PL
    make
    make install
-
-DEPENDENCIES
-
-This module requires these other modules and libraries:
-
-  Tk
-  Carp
 
 COPYRIGHT AND LICENCE
 

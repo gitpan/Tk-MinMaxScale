@@ -1,5 +1,10 @@
 Revision history for Perl extension Tk::MinMaxScale.
 
+0.05 - 2002/11/05
+	- unlike Scale, 'B<-orient>' option defaults now to 'horizontal'.
+	- like Scale, 'B<-from>' and 'B<-to>' options defaults now to 0 and 100, respectively.
+	- definitely (:() fixed Shift-key binding problems.
+
 0.04 - 2002/11/01
 	- enhanced methods B<minvalue> and B<maxvalue> to set|get the values of the scales.
 
