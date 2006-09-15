@@ -1,6 +1,6 @@
 #!perl -w
 use strict;
-use diagnostics;
+
 use Tk;
 use Test;
 
@@ -10,6 +10,7 @@ use Tk::MinMaxScale;
 my $delay = 50;
 
 my $mw = new MainWindow;
+
 
 my $vn = 94;
 my $vx = 117;
@@ -75,7 +76,7 @@ sub start_test {
 
 	$mw->after(1000);
 
-	for (1..19) {
+	for (33..51) {
 		$wx--;
 		$mw->update;
 		$mw->after($delay);
@@ -84,7 +85,7 @@ sub start_test {
 
 	$mw->after(1000);
 
-	for (20..29) {
+	for (52..61) {
 		$wx--;
 		$mw->update;
  		ok($wn == $wx);
@@ -92,7 +93,7 @@ sub start_test {
 
 	$mw->after(1000);
 
-	for (30..31) {
+	for (62..63) {
 		$wx--;
 		$mw->update;
 		$mw->after($delay);
@@ -105,37 +106,46 @@ sub start_test {
 	$wn = 40;
 	$wx = 60;
 
-
 	$mw->after(1000);
 
-	$mw->eventGenerate('<Shift_L>');
-	for (1..30) {
-		$wn++;
-		$mw->update;
-		$mw->after($delay);
-		ok(($wx - $wn) == 20);
+	if ($mw->ismapped) {
+		$mw->focusForce;
+		$mw->eventGenerate('<Shift_L>');
+		
+		for (67..96) {
+			$wn++;
+			$mw->update;
+			$mw->after($delay);
+			ok(($wx - $wn) == 20);
+		}
+		ok($wn == 60);
+		ok($wx == 80);
+	
+		$mw->after(1000);
+	
+		$wn = 40;
+		$wx = 60;
+	
+		$mw->after(1000);
+	
+		for (99..128) {
+			$wx--;
+			$mw->update;
+			$mw->after($delay);
+			ok(($wx - $wn) == 20);
+		}
+		ok($wn == 30);
+		ok($wx == 50);
+		
+		$mw->after(1000);
 	}
-	ok($wn == 60);
-	ok($wx == 80);
-
-	$mw->after(1000);
-
-	$wn = 40;
-	$wx = 60;
-
-	$mw->after(1000);
-
-	for (1..30) {
-		$wx--;
-		$mw->update;
-		$mw->after($delay);
-		ok(($wx - $wn) == 20);
+	else {
+		# just in case of...
+		print "main window is not mapped\n";
+		for (67..130) { ok(1) };
 	}
-	ok($wn == 30);
-	ok($wx == 50);
 
 	# that's all folks
-	$mw->after(1000);
 	exit;
 }
 

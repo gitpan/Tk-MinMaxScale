@@ -1,4 +1,4 @@
-Tk/MinMaxScale version 0.11
+Tk/MinMaxScale version 0.12
 ===========================
 
 Tk::MinMaxScale is a Frame-based widget wrapping two Scale widgets,
@@ -28,6 +28,9 @@ To install this module type the following:
 
 
 HISTORY
+
+version 0.12 - 2006/09/15
+	- failure corrected in test twomms.t
 
 version 0.11 - 2004/02/29
 	- some code clean-up

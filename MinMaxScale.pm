@@ -7,7 +7,7 @@ use Tie::Watch;
 
 use base qw(Tk::Frame);
 
-$VERSION = '0.11';
+$VERSION = '0.12';
 
 Construct Tk::Widget 'MinMaxScale';
 
